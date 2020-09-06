@@ -29,7 +29,7 @@ NOTE: When downloading the Windows version, there may be a warning telling you t
 
 ### Linux + MacOS
 
-For Linux and MacOS, it's super easy. You just have to open up a terminal in the directory you downloaded the latest version of Symbit from and do `./symbit-linux` and hit enter to run the program. If it doesn't work, you need to give it executable permissions. To do so, just type `chmod +x symbit-linux` in the terminal and hit enter.
+For Linux and MacOS, it's super easy. You just have to open up a terminal in the directory you downloaded the latest version of Symbit from and do `./symbit-linux` and hit enter (or `./symbit-macos`) to run the program. If it doesn't work, you need to give it executable permissions. To do so, just type `chmod +x symbit-linux` (or `chmod +x symbit-macos`) in the terminal and hit enter.
 
 ### Windows
 
