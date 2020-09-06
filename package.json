@@ -2,10 +2,11 @@
   "private": true,
   "scripts": {
     "start": "ts-node src/main.ts",
-    "build:typescript": "tsc --outdir __build",
+    "build:typescript": "tsc --outDir __build",
     "build:pkg": "pkg __build/main.js --out-path dist/",
     "build": "npm run build:typescript && npm run build:pkg",
-    "postbuild": "rm -r __build"
+    "postbuild": "rm -r __build",
+    "test": "tsc --noEmit"
   },
   "dependencies": {
     "@types/inquirer": "^7.3.1",
