@@ -45,7 +45,7 @@ function downloadPlatformTools(platform: string) {
     fs.createWriteStream(`${PLATFORM_TOOLS_DIR}.zip`),
     (err) => {
       if (err) throw err;
-      extract(`${PLATFORM_TOOLS_DIR}.zip`, { dir: "." }).then(() => {
+      extract(`${PLATFORM_TOOLS_DIR}.zip`, { dir: process.cwd() }).then(() => {
         fs.unlink(`${PLATFORM_TOOLS_DIR}.zip`, (err) => {
           if (err) throw err;
           shell.chmod("+x", `${PLATFORM_TOOLS_DIR}/adb`);
