@@ -17,6 +17,10 @@
   </a>
 </p>
 
+## How to use
+
+Download the latest version from [here](https://github.com/raphtlw/symbit/releases/latest)
+
 ## About
 
 TWRP has not been updated to support the new /system format and rooting has been more difficult. Although rooting with the stock bootloader usually brings more stability and less problems when rooting, it requires one to go through the hassle of typing many commands into the terminal just to be able to root or update their phone. This app aims to solve that problem.
