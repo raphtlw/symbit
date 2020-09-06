@@ -17,9 +17,23 @@
   </a>
 </p>
 
-## How to use
+## Install
 
-Download the latest version from [here](https://github.com/raphtlw/symbit/releases/latest)
+- [Linux](https://github.com/raphtlw/symbit/releases/latest/download/symbit-linux)
+- [Mac](https://github.com/raphtlw/symbit/releases/latest/download/symbit-macos)
+- [Windows](https://github.com/raphtlw/symbit/releases/latest/download/symbit-windows.exe)
+
+NOTE: When downloading the Windows version, there may be a warning telling you that the program is harmful. Just ignore it because it's typical of Windows to do so 😉.
+
+## Usage
+
+### Linux + MacOS
+
+For Linux and MacOS, it's super easy. You just have to open up a terminal in the directory you downloaded the latest version of Symbit from and do `./symbit-linux` and hit enter to run the program. If it doesn't work, you need to give it executable permissions. To do so, just type `chmod +x symbit-linux` in the terminal and hit enter.
+
+### Windows
+
+For Windows, you only need to click on the exe file after downloading it from the [releases](https://github.com/raphtlw/symbit/releases/latest/download/symbit-windows.exe) page.
 
 ## About
 
