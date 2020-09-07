@@ -5,15 +5,16 @@ import chalk from "chalk";
 import got from "got";
 import extract from "extract-zip";
 
-import { PLATFORM_TOOLS_DIR, supportedDeviceTypes } from "./global";
+import { PLATFORM_TOOLS_DIR, supportedDeviceTypes, ACTIONS } from "./global";
 import { printError, inputChoice } from "./util";
+import _root from "./root";
 import _update from "./update";
 
 // prettier-ignore
 const argv = yargs
   .usage("Usage: $0 <command> [options]")
-  .command("root", "Root your phone")
-  .command("update", "Update your phone")
+  .command(ACTIONS.ROOT, "Root your phone")
+  .command(ACTIONS.UPDATE, "Update your phone")
   .epilog("copyright 2020")
   .argv;
 
@@ -71,7 +72,10 @@ console.log(
   );
 
   switch (argv._[0]) {
-    case "update":
+    case ACTIONS.ROOT:
+      await _root(deviceType);
+      break;
+    case ACTIONS.UPDATE:
       await _update(deviceType);
       break;
   }

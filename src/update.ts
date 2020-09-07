@@ -2,20 +2,32 @@ import extract from "extract-zip";
 import glob from "glob";
 import chalk from "chalk";
 import open from "open";
-import { printError, inputConfirmation, adb, fastboot, input } from "./util";
-import { supportedDeviceTypes, spinner } from "./global";
+import {
+  printError,
+  inputConfirmation,
+  adb,
+  fastboot,
+  input,
+  indoc,
+} from "./util";
+import {
+  spinner,
+  supportedDeviceTypes,
+  unsupportedDeviceString,
+  prompts,
+} from "./global";
 
 //
-// -----------------------------------------------------
+// ------------------------------------------------
 //
 
-export default async function _update(deviceType: string) {
+export default async function (deviceType: string) {
   switch (deviceType) {
     case supportedDeviceTypes.GOOGLE_PIXEL:
       await GooglePixel();
       break;
     default:
-      break;
+      console.log(unsupportedDeviceString);
   }
 }
 
@@ -25,35 +37,17 @@ async function GooglePixel() {
   }
 
   if (!(await inputConfirmation("Do you have Developer options enabled"))) {
-    console.log(
-      `
-Instructions for enabling Developer Options
----
-
-1. Go to settings > about phone
-2. Tap "build number" 7 times
-        `
-    );
+    console.log(prompts.enableDeveloperOptions);
   }
 
   console.log("\nStarting ADB server...\n");
   adb("devices");
-  console.log(
-    `
-Please check the 'always allow' option for ADB
-if you see a popup asking you to allow this PC to connect with ADB.
-        `
-  );
+  console.log(prompts.adbAlwaysAllow);
 
-  console.log(
-    `
-Please download the latest factory image for your Google Pixel
-and unzip the zip file from this website: https://developers.google.com/android/images
-        `
-  );
+  console.log(prompts.latestFactoryImage);
   open("https://developers.google.com/android/images");
 
-  console.log("TIP: You can drag and drop the folder into the terminal");
+  console.log(prompts.tipDragFolderIntoTerminal);
   const imageDir = await input("Path to extracted image folder");
 
   spinner.start("Processing...");
@@ -66,26 +60,13 @@ and unzip the zip file from this website: https://developers.google.com/android/
 
   adb("push", `${imageDir}/boot.img`, "/sdcard/");
   console.log("\nThe image file has been pushed to your Android device.");
-  console.log(`
-Now you'll need to patch the image file using the Magisk Manager app
-on your Android device.
-
-1. Open Magisk
-2. Tap 'install'
-3. Tap 'install' again
-4. Tap 'Select and Patch a File'
-5. Go to the root of your Pixel's file manager
-   and select the boot.img file
-NOTE: After patching the boot.img, DO NOT REBOOT.
-      `);
+  console.log(prompts.patchBootImageFileInstructions);
 
   await inputConfirmation("Done");
 
   adb("pull", "/sdcard/Download/magisk_patched.img", imageDir);
 
-  console.log(`
-Update process starting...
-      `);
+  console.log("\nUpdate process starting...");
 
   spinner.start(chalk.greenBright("Updating your phone..."));
 

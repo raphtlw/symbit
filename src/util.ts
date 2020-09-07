@@ -16,6 +16,24 @@ export function printError(message: string) {
 }
 
 /**
+ * Indented Documents
+ *
+ * Template literal function to generate unindented strings
+ *
+ * @example
+ * indoc`
+ *   test
+ * `
+ * // output: `test`
+ */
+export function indoc(document: TemplateStringsArray): string {
+  return document[0]
+    .split("\n")
+    .map((item) => item.trim())
+    .join("\n");
+}
+
+/**
  * Ask for input from the user
  */
 export async function input(message: string): Promise<string> {
