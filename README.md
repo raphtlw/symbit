@@ -7,13 +7,16 @@
 
 <p align='center'>
   <a href='https://example.com'>
-    <img src='https://img.shields.io/badge/stability-experimental-orange?style=for-the-badge'>
+    <img src='https://img.shields.io/badge/stability-experimental-orange?style=for-the-badge' height='25'>
   </a>
   <a href='https://github.com/raphtlw/zorin/pulls'>
-    <img src="https://img.shields.io/badge/PR's-welcome-limegreen?style=for-the-badge&logo=github">
+    <img src="https://img.shields.io/badge/PR's-welcome-limegreen?style=for-the-badge&logo=github" height='25'>
   </a>
   <a href='https://example.com'>
-    <img src='https://img.shields.io/badge/build-success-green?style=for-the-badge'>
+    <img src='https://img.shields.io/badge/build-success-green?style=for-the-badge' height='25'>
+  </a>
+  <a href='https://github.com/prettier/prettier'>
+    <img src='https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=for-the-badge' height='25'>
   </a>
 </p>
 
@@ -23,7 +26,7 @@
 - [Mac](https://github.com/raphtlw/symbit/releases/latest/download/symbit-macos)
 - [Windows](https://github.com/raphtlw/symbit/releases/latest/download/symbit-windows.exe)
 
-NOTE: When downloading the Windows version, there may be a warning telling you that the program is harmful. Just ignore it because it's typical of Windows to do so 😉.
+NOTE: When downloading the Windows version, there may be a warning telling you that the program is harmful. Just ignore it because it's typical of Windows to do so.
 
 ## Usage
 
@@ -74,6 +77,15 @@ TWRP has not been updated to support the new /system format and rooting has been
 - Google Pixel 4a XL
 - Google Pixel 5
 - Google Pixel 5 XL
+
+## Roadmap
+
+Here's a list of what I plan to do in the future with this project 👇
+
+- Support for **all** OnePlus and Sony devices
+- Support for **majority** of Samsung and Xiaomi devices
+- Support for custom roms
+- Ability to run on the device itself with Termux
 
 ## Contributing
 
