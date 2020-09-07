@@ -6,9 +6,7 @@ function exec(command) {
   console.log(execResult.stdout);
 }
 
-fs.rmdir("dist", { recursive: true }, (err) => {
-  if (err) throw err;
-});
+fs.rmdirSync("dist", { recursive: true });
 exec("tsc --outDir __build");
 exec("pkg __build/main.js --out-path dist/");
 fs.rmdirSync("__build", { recursive: true });
