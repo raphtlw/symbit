@@ -6,6 +6,9 @@ import {indoc} from './util'
 
 
 export const PLATFORM_TOOLS_DIR = "platform-tools";
+export const MAGISK_MANAGER_APK_PATH = "magisk-manager.apk";
+
+
 export const spinner = ora();
 
 
@@ -30,6 +33,22 @@ export const prompts = {
 
     1. Go to settings > about phone
     2. Tap "build number" 7 times
+  `,
+  enableUSBDebugging: indoc`
+    Instructions for enabling USB debugging
+    ---
+
+    1. Go to the Developer Options menu
+    2. Scroll down to find "USB Debugging"
+    3. Flip the switch and you're good to go!
+  `,
+  enableOEMUnlocking: indoc`
+    Instructions for enabling OEM unlocking
+    ---
+
+    1. Go to the Developer Options menu
+    2. Scroll down to find "OEM Unlocking"
+    3. Flip the switch and you're good to go!
   `,
   adbAlwaysAllow: indoc`
     Please check the 'always allow' option for ADB
