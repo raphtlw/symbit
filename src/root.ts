@@ -3,6 +3,7 @@ import got from "got";
 import fs from "fs";
 import glob from "glob";
 import extract from "extract-zip";
+
 import {
   supportedDeviceTypes,
   unsupportedDeviceString,

@@ -1,5 +1,6 @@
 import ora from "ora";
-import {indoc} from './util'
+
+import { indoc } from './util'
 
 
 

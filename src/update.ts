@@ -2,6 +2,7 @@ import extract from "extract-zip";
 import glob from "glob";
 import chalk from "chalk";
 import open from "open";
+
 import { inputConfirmation, adb, fastboot, input } from "./util";
 import {
   spinner,
