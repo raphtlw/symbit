@@ -6,7 +6,7 @@ import got from "got";
 import extract from "extract-zip";
 
 import { PLATFORM_TOOLS_DIR, supportedDeviceTypes, ACTIONS } from "./global";
-import { printError, inputChoice } from "./util";
+import { printError, inputChoice, indoc } from "./util";
 import _root from "./root";
 import _update from "./update";
 
@@ -19,14 +19,14 @@ const argv = yargs
   .argv;
 
 console.log(
-  chalk.bold(`
-  SYMBIT
-  ---
-  A root manager for Android devices which allows you to update
-  existing rooted devices, tweak magisk and run other commands which improve the
-  Android root experience and adds onto Magisk. 🚀
-  
-  - raphtlw
+  chalk.bold(indoc`
+    SYMBIT
+    ---
+    A root manager for Android devices which allows you to update
+    existing rooted devices, tweak magisk and run other commands which improve the
+    Android root experience and adds onto Magisk. 🚀
+
+    - raphtlw
   `)
 );
 

@@ -16,7 +16,7 @@ export function printError(message: string) {
 }
 
 /**
- * Indented Documents
+ * # Indented Documents
  *
  * Template literal function to generate unindented strings
  *
