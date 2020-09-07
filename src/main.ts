@@ -62,7 +62,7 @@ console.log(
     } else if (process.platform === "darwin") {
       await downloadPlatformTools("darwin");
     } else {
-      printError("Android platform tools not found for your device.");
+      printError("Android platform tools not found for your device. 😕");
     }
   }
 
