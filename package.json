@@ -2,11 +2,7 @@
   "private": true,
   "scripts": {
     "start": "ts-node src/main.ts",
-    "build:typescript": "tsc --outDir __build",
-    "build:pkg": "pkg __build/main.js --out-path dist/",
-    "prebuild": "rm -r dist/",
-    "build": "npm run build:typescript && npm run build:pkg",
-    "postbuild": "rm -r __build",
+    "build": "node scripts/build.js",
     "test": "tsc --noEmit"
   },
   "dependencies": {
