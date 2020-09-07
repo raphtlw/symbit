@@ -2,14 +2,7 @@ import extract from "extract-zip";
 import glob from "glob";
 import chalk from "chalk";
 import open from "open";
-import {
-  printError,
-  inputConfirmation,
-  adb,
-  fastboot,
-  input,
-  indoc,
-} from "./util";
+import { printError, inputConfirmation, adb, fastboot, input } from "./util";
 import {
   spinner,
   supportedDeviceTypes,
