@@ -3,6 +3,7 @@ import glob from "glob";
 import chalk from "chalk";
 import open from "open";
 import path from "path";
+import shell from "shelljs";
 
 import {
   SUPPORTED_DEVICE_TYPES,
@@ -14,6 +15,7 @@ import {
   fastboot,
   print,
   indoc,
+  DIR,
 } from "./global";
 
 //
@@ -34,7 +36,7 @@ export default async function (deviceType: string) {
 }
 
 class Update {
-  imageDir: string;
+  protected constructor() {}
 
   async start() {
     await this.promptConnectPhone();
@@ -71,6 +73,27 @@ class Update {
       "Please make sure your device appears in the list of devices attached above"
     );
   }
+  async getLatestFactoryImage() {}
+  async patchBootImage() {}
+  async flash() {}
+  async end() {
+    print(
+      chalk.bold(
+        chalk.greenBright(
+          "\nYour phone has been updated to the latest version of Android! 🥳"
+        )
+      )
+    );
+  }
+}
+
+class GooglePixel extends Update {
+  constructor() {
+    super();
+  }
+
+  imageDir: string;
+
   async getLatestFactoryImage() {
     print("");
     print(indoc`
@@ -92,14 +115,12 @@ class Update {
   async patchBootImage() {
     adb("push", `${this.imageDir}/boot.img`, "/sdcard/");
     print("\nThe image file has been pushed to your Android device.");
-
     print(STRINGS.patch_boot_image_file_instructions);
     await inputConfirmation("Done");
 
     adb("pull", "/sdcard/Download/magisk_patched.img", this.imageDir);
   }
   async flash() {
-    print("\nUpdate process starting...");
     spinner.start(chalk.greenBright("Updating your phone..."));
     adb("reboot", "bootloader");
     fastboot(
@@ -120,19 +141,63 @@ class Update {
     fastboot("reboot");
     spinner.stopAndPersist();
   }
-  async end() {
-    print(
-      chalk.bold(
-        chalk.greenBright(
-          "\nYour phone has been updated to the latest version of Android! 🥳"
-        )
-      )
-    );
-  }
 }
 
-class GooglePixel extends Update {}
-class OnePlus extends Update {}
+class OnePlus extends Update {
+  constructor() {
+    super();
+  }
+
+  softwareZipPath: string;
+
+  async getLatestFactoryImage() {
+    print(indoc`
+      Please download the latest software update for your OnePlus phone here:
+      https://www.oneplus.com/support/softwareupgrade
+    `);
+    open("https://www.oneplus.com/support/softwareupgrade");
+
+    print(STRINGS.tip_drag_folder_into_terminal);
+    this.softwareZipPath = await input("Path to software update zip file");
+    this.softwareZipPath = path.resolve(this.softwareZipPath);
+
+    if (!(await inputConfirmation("Do you have Python on your system?"))) {
+      print(STRINGS.install_python_instructions);
+    }
+
+    spinner.start("Processing...");
+    await extract(this.softwareZipPath, { dir: DIR });
+
+    shell.exec(
+      `python3 -m pip install -r ${process.cwd()}/lib/payload_dumper/requirements.txt`
+    );
+    shell.exec(
+      `python3 ${process.cwd()}/lib/payload_dumper/payload_dumper.py ${DIR}/payload.bin`
+    );
+    shell.mv("output", DIR);
+    spinner.stopAndPersist();
+  }
+  async patchBootImage() {
+    adb("push", `${DIR}/output/boot.img`, "/sdcard/");
+    print("\nThe image file has been pushed to your Android device.");
+    print(STRINGS.patch_boot_image_file_instructions);
+    await inputConfirmation("Done");
+    adb("pull", "/sdcard/Download/magisk_patched.img", `${DIR}`);
+  }
+  async flash() {
+    spinner.start(chalk.greenBright("Updating your phone..."));
+    adb("reboot", "recovery");
+    print("Your phone has been booted into recovery.");
+    print("Now, you need to enter ADB sideload mode.");
+    print("To do so, just tap English > Install from USB > OK");
+    await inputConfirmation("Done");
+    adb("sideload", this.softwareZipPath);
+    adb("reboot", "bootloader");
+    fastboot("flash", "boot", `${DIR}/magisk_patched.img`);
+    fastboot("reboot");
+    spinner.stopAndPersist();
+  }
+}
 
 // async function GooglePixel() {
 //   await inputConfirmation("Please connect your phone.");

@@ -50,7 +50,7 @@ class Root {
     await this.unlockBootloader();
     await this.getLatestFactoryImage();
     await this.installMagisk();
-    await this.patchBootImageWithMagisk();
+    await this.patchBootImage();
     await this.flash();
     await this.end();
   }
@@ -113,7 +113,7 @@ class Root {
     }
   }
   async getLatestFactoryImage() {}
-  async patchBootImageWithMagisk() {}
+  async patchBootImage() {}
   async flash() {}
   async end() {
     print(
@@ -132,11 +132,13 @@ class GooglePixel extends Root {
   imageDir: string;
 
   async getLatestFactoryImage() {
+    print("");
     print(indoc`
       Please download the latest factory image for your Google Pixel and
       unzip the zip file from this website: https://developers.google.com/android/images
     `);
     open("https://developers.google.com/android/images");
+    print("");
 
     print(STRINGS.tip_drag_folder_into_terminal);
     this.imageDir = await input("Path to extracted image folder");
@@ -147,11 +149,12 @@ class GooglePixel extends Root {
     });
     spinner.stopAndPersist();
   }
-  async patchBootImageWithMagisk() {
+  async patchBootImage() {
     adb("push", `${this.imageDir}/boot.img`, "/sdcard/");
     print("\nThe image file has been pushed to your Android device.");
     print(STRINGS.patch_boot_image_file_instructions);
     await inputConfirmation("Done");
+
     adb("pull", "/sdcard/Download/magisk_patched.img", this.imageDir);
   }
   async flash() {
@@ -211,7 +214,7 @@ class OnePlus extends Root {
     shell.mv("output", DIR);
     spinner.stopAndPersist();
   }
-  async patchBootImageWithMagisk() {
+  async patchBootImage() {
     adb("push", `${DIR}/output/boot.img`, "/sdcard/");
     print("\nThe image file has been pushed to your Android device.");
     print(STRINGS.patch_boot_image_file_instructions);
@@ -224,6 +227,7 @@ class OnePlus extends Root {
     print("Your phone has been booted into recovery.");
     print("Now, you need to enter ADB sideload mode.");
     print("To do so, just tap English > Install from USB > OK");
+    await inputConfirmation("Done");
     adb("sideload", this.softwareZipPath);
     adb("reboot", "bootloader");
     fastboot("flash", "boot", `${DIR}/magisk_patched.img`);
