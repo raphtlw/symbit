@@ -63,6 +63,7 @@ TWRP has not been updated to support the new /system format and rooting has been
 
 ## Supported devices
 
+### Google Pixel
 - Google Pixel 1
 - Google Pixel 1 XL
 - Google Pixel 2
@@ -77,6 +78,24 @@ TWRP has not been updated to support the new /system format and rooting has been
 - Google Pixel 4a XL
 - Google Pixel 5
 - Google Pixel 5 XL
+
+### OnePlus
+- OnePlus 3
+- OnePlus 3T
+- OnePlus 5
+- OnePlus 5T
+- OnePlus 6
+- OnePlus 6T
+- OnePlus 6T McLaren
+- OnePlus 7
+- OnePlus 7 Pro
+- OnePlus 7 Pro 5G
+- OnePlus 7T
+- OnePlus 7T Pro
+- OnePlus 7T Pro 5G McLaren
+- OnePlus 8
+- OnePlus 8 Pro
+- OnePlus Nord
 
 ## Roadmap
 

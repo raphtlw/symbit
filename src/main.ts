@@ -5,8 +5,15 @@ import chalk from "chalk";
 import got from "got";
 import extract from "extract-zip";
 
-import { PLATFORM_TOOLS_DIR, supportedDeviceTypes, ACTIONS } from "./global";
-import { printError, inputChoice, indoc } from "./util";
+import {
+  ACTIONS,
+  PLATFORM_TOOLS_DIR,
+  SUPPORTED_DEVICE_TYPES,
+  indoc,
+  printError,
+  inputChoice,
+  print,
+} from "./global";
 import _root from "./root";
 import _update from "./update";
 
@@ -18,19 +25,21 @@ const argv = yargs
   .epilog("copyright 2020")
   .argv;
 
-console.log(
-  chalk.bold(indoc`
-    SYMBIT
-    ---
-    A root manager for Android devices which allows you to update
-    existing rooted devices, tweak magisk and run other commands which improve the
-    Android root experience and adds onto Magisk. 🚀
-
-    - raphtlw
-  `)
-);
-
 (async () => {
+  print("");
+  print(
+    chalk.bold(indoc`
+      SYMBIT
+      ---
+      A root manager for Android devices which allows you to update
+      existing rooted devices, tweak magisk and run other commands which improve the
+      Android root experience and adds onto Magisk. 🚀
+  
+      - raphtlw
+    `)
+  );
+  print("");
+
   /**
    * Downloads the latest version of platform tools for your system.
    *
@@ -46,7 +55,9 @@ console.log(
         fs
           .createWriteStream(`${PLATFORM_TOOLS_DIR}.zip`)
           .on("finish", async () => {
-            await extract(`${PLATFORM_TOOLS_DIR}.zip`, { dir: process.cwd() });
+            await extract(`${PLATFORM_TOOLS_DIR}.zip`, {
+              dir: PLATFORM_TOOLS_DIR,
+            });
             fs.unlinkSync(`${PLATFORM_TOOLS_DIR}.zip`);
             shell.chmod("+x", `${PLATFORM_TOOLS_DIR}/adb`);
             shell.chmod("+x", `${PLATFORM_TOOLS_DIR}/fastboot`);
@@ -68,7 +79,7 @@ console.log(
 
   const deviceType = await inputChoice(
     "What type of device do you have?",
-    Object.values(supportedDeviceTypes)
+    Object.values(SUPPORTED_DEVICE_TYPES)
   );
 
   switch (argv._[0]) {

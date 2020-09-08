@@ -3,7 +3,7 @@
   "scripts": {
     "start": "ts-node src/main.ts",
     "build": "node scripts/build.js",
-    "test": "tsc --noEmit"
+    "test": "tsc --noEmit && madge --circular src/main.ts"
   },
   "dependencies": {
     "@types/inquirer": "^7.3.1",
@@ -11,10 +11,12 @@
     "@types/shelljs": "^0.8.8",
     "@types/unzipper": "^0.10.3",
     "@types/yargs": "^15.0.5",
+    "adm-zip": "^0.4.16",
     "chalk": "^4.1.0",
     "extract-zip": "^2.0.1",
     "got": "^11.6.0",
     "inquirer": "^7.3.3",
+    "madge": "^3.9.2",
     "open": "^7.2.1",
     "ora": "^5.0.0",
     "pkg": "^4.4.9",

@@ -2,3 +2,4 @@
 dist/
 __build/
 platform-tools/
+output/

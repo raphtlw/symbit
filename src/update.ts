@@ -2,13 +2,18 @@ import extract from "extract-zip";
 import glob from "glob";
 import chalk from "chalk";
 import open from "open";
+import path from "path";
 
-import { inputConfirmation, adb, fastboot, input } from "./util";
 import {
+  SUPPORTED_DEVICE_TYPES,
+  STRINGS,
   spinner,
-  supportedDeviceTypes,
-  unsupportedDeviceString,
-  prompts,
+  inputConfirmation,
+  adb,
+  input,
+  fastboot,
+  print,
+  indoc,
 } from "./global";
 
 //
@@ -17,11 +22,14 @@ import {
 
 export default async function (deviceType: string) {
   switch (deviceType) {
-    case supportedDeviceTypes.GOOGLE_PIXEL:
+    case SUPPORTED_DEVICE_TYPES.GOOGLE_PIXEL:
       await new GooglePixel().start();
       break;
+    case SUPPORTED_DEVICE_TYPES.ONEPLUS:
+      await new OnePlus().start();
+      break;
     default:
-      console.log(unsupportedDeviceString);
+      print(STRINGS.unsupported_device);
   }
 }
 
@@ -33,6 +41,7 @@ class Update {
     await this.prerequisites();
     await this.startADBServer();
     await this.getLatestFactoryImage();
+    await this.patchBootImage();
     await this.flash();
     await this.end();
   }
@@ -42,38 +51,55 @@ class Update {
   }
   async prerequisites() {
     if (!(await inputConfirmation("Do you have Developer options enabled"))) {
-      console.log(prompts.enableDeveloperOptions);
+      print(STRINGS.enable_developer_options);
       inputConfirmation("Done");
     }
 
     if (!(await inputConfirmation("Do you have USB debugging enabled"))) {
-      console.log(prompts.enableUSBDebugging);
+      print(STRINGS.enable_usb_debugging);
       inputConfirmation("Done");
     }
   }
   async startADBServer() {
-    console.log("\nStarting ADB server...\n");
+    print("");
+    print("Starting ADB server...");
+    print("");
     adb("devices");
-    console.log(prompts.adbAlwaysAllow);
-    console.log(
-      "\nPlease make sure your device appears in the list of devices attached"
+    print(STRINGS.adb_always_allow);
+    print("");
+    print(
+      "Please make sure your device appears in the list of devices attached above"
     );
   }
   async getLatestFactoryImage() {
-    console.log(prompts.latestFactoryImage);
+    print("");
+    print(indoc`
+      Please download the latest factory image for your Google Pixel and
+      unzip the zip file from this website: https://developers.google.com/android/images
+    `);
     open("https://developers.google.com/android/images");
+    print("");
 
-    console.log(prompts.tipDragFolderIntoTerminal);
+    print(STRINGS.tip_drag_folder_into_terminal);
     this.imageDir = await input("Path to extracted image folder");
-
+    this.imageDir = path.resolve(this.imageDir);
     spinner.start("Processing...");
     await extract(glob.sync(`${this.imageDir}/image-*.zip`)[0], {
       dir: this.imageDir,
     });
     spinner.stopAndPersist();
   }
+  async patchBootImage() {
+    adb("push", `${this.imageDir}/boot.img`, "/sdcard/");
+    print("\nThe image file has been pushed to your Android device.");
+
+    print(STRINGS.patch_boot_image_file_instructions);
+    await inputConfirmation("Done");
+
+    adb("pull", "/sdcard/Download/magisk_patched.img", this.imageDir);
+  }
   async flash() {
-    console.log("\nUpdate process starting...");
+    print("\nUpdate process starting...");
     spinner.start(chalk.greenBright("Updating your phone..."));
     adb("reboot", "bootloader");
     fastboot(
@@ -95,7 +121,7 @@ class Update {
     spinner.stopAndPersist();
   }
   async end() {
-    console.log(
+    print(
       chalk.bold(
         chalk.greenBright(
           "\nYour phone has been updated to the latest version of Android! 🥳"
@@ -106,31 +132,32 @@ class Update {
 }
 
 class GooglePixel extends Update {}
+class OnePlus extends Update {}
 
 // async function GooglePixel() {
 //   await inputConfirmation("Please connect your phone.");
 
 //   if (!(await inputConfirmation("Do you have Developer options enabled"))) {
-//     console.log(prompts.enableDeveloperOptions);
+//     print(prompts.enable_developer_options);
 //     inputConfirmation("Done");
 //   }
 
 //   if (!(await inputConfirmation("Do you have USB debugging enabled"))) {
-//     console.log(prompts.enableUSBDebugging);
+//     print(prompts.enableUSBDebugging);
 //     inputConfirmation("Done");
 //   }
 
-//   console.log("\nStarting ADB server...\n");
+//   print("\nStarting ADB server...\n");
 //   adb("devices");
-//   console.log(prompts.adbAlwaysAllow);
-//   console.log(
+//   print(prompts.adbAlwaysAllow);
+//   print(
 //     "\nPlease make sure your device appears in the list of devices attached"
 //   );
 
-//   console.log(prompts.latestFactoryImage);
+//   print(prompts.latestFactoryImage);
 //   open("https://developers.google.com/android/images");
 
-//   console.log(prompts.tipDragFolderIntoTerminal);
+//   print(prompts.tipDragFolderIntoTerminal);
 //   const imageDir = await input("Path to extracted image folder");
 
 //   spinner.start("Processing...");
@@ -140,14 +167,14 @@ class GooglePixel extends Update {}
 //   spinner.stopAndPersist();
 
 //   adb("push", `${imageDir}/boot.img`, "/sdcard/");
-//   console.log("\nThe image file has been pushed to your Android device.");
-//   console.log(prompts.patchBootImageFileInstructions);
+//   print("\nThe image file has been pushed to your Android device.");
+//   print(prompts.patchBootImageFileInstructions);
 
 //   await inputConfirmation("Done");
 
 //   adb("pull", "/sdcard/Download/magisk_patched.img", imageDir);
 
-//   console.log("\nUpdate process starting...");
+//   print("\nUpdate process starting...");
 //   spinner.start(chalk.greenBright("Updating your phone..."));
 //   adb("reboot", "bootloader");
 //   fastboot("flash", "bootloader", glob.sync(`${imageDir}/bootloader-*.img`)[0]);
@@ -160,7 +187,7 @@ class GooglePixel extends Update {}
 //   fastboot("reboot");
 //   spinner.stopAndPersist();
 
-//   console.log(
+//   print(
 //     chalk.bold(
 //       chalk.greenBright(
 //         "\nYour phone has been updated to the latest version of Android! 🥳"
