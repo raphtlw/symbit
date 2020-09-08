@@ -22,11 +22,9 @@
 
 ## Install
 
-- [Linux](https://github.com/raphtlw/symbit/releases/latest/download/symbit-linux)
-- [Mac](https://github.com/raphtlw/symbit/releases/latest/download/symbit-macos)
-- [Windows](https://github.com/raphtlw/symbit/releases/latest/download/symbit-windows.exe)
-
-NOTE: When downloading the Windows version, there may be a warning telling you that the program is harmful. Just ignore it because it's typical of Windows to do so.
+- [Linux](https://github.com/raphtlw/symbit/releases/latest/download/linux.zip)
+- [Mac](https://github.com/raphtlw/symbit/releases/latest/download/macos.zip)
+- [Windows](https://github.com/raphtlw/symbit/releases/latest/download/windows.zip)
 
 ## Usage
 
@@ -101,10 +99,12 @@ TWRP has not been updated to support the new /system format and rooting has been
 
 Here's a list of what I plan to do in the future with this project 👇
 
-- Support for **all** OnePlus and Sony devices
-- Support for **majority** of Samsung and Xiaomi devices
-- Support for custom roms
-- Ability to run on the device itself with Termux
+| Goal                                                     | Status |
+| -------------------------------------------------------- | ------ |
+| Support for **all** OnePlus and Sony devices             | 40%    |
+| Support for **majority** of Samsung and Xiaomi devices   | 0%     |
+| Support for major custom roms                            | 0%     |
+| Ability to run on the device itself with Termux          | 20%    |
 
 ## Contributing
 
