@@ -3,7 +3,8 @@
   "scripts": {
     "start": "ts-node src/main.ts",
     "build": "node scripts/build.js",
-    "test": "tsc --noEmit && madge --circular src/main.ts"
+    "test": "tsc --noEmit && madge --circular src/main.ts",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@types/inquirer": "^7.3.1",

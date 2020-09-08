@@ -45,6 +45,7 @@ The same goes for MacOS &mdash; `./symbit-macos --help`.
 ### Examples
 
 #### Linux + MacOS
+
 - `./symbit --help` - Lists all the arguments you can specify for the program
 - `./symbit update` - Updates your phone to the latest Android version
 - `./symbit root` - Root your phone via Magisk
@@ -62,6 +63,7 @@ TWRP has not been updated to support the new /system format and rooting has been
 ## Supported devices
 
 ### Google Pixel
+
 - Google Pixel 1
 - Google Pixel 1 XL
 - Google Pixel 2
@@ -78,6 +80,7 @@ TWRP has not been updated to support the new /system format and rooting has been
 - Google Pixel 5 XL
 
 ### OnePlus
+
 - OnePlus 3
 - OnePlus 3T
 - OnePlus 5
@@ -99,15 +102,17 @@ TWRP has not been updated to support the new /system format and rooting has been
 
 Here's a list of what I plan to do in the future with this project 👇
 
-| Goal                                                     | Status |
-| -------------------------------------------------------- | ------ |
-| Support for **all** OnePlus and Sony devices             | 40%    |
-| Support for **majority** of Samsung and Xiaomi devices   | 0%     |
-| Support for major custom roms                            | 0%     |
-| Ability to run on the device itself with Termux          | 20%    |
+| Goal                                                   | Status |
+| ------------------------------------------------------ | ------ |
+| Support for **all** OnePlus and Sony devices           | 40%    |
+| Support for **majority** of Samsung and Xiaomi devices | 0%     |
+| Support for major custom roms                          | 0%     |
+| Ability to run on the device itself with Termux        | 20%    |
 
 ## Contributing
 
 Contributions are always welcome. If you feel inclined to, feel free to submit a pull request.
 
 In addition, you can also contribute by submitting issues. Please describe the issue with enough details and I will solve them as soon as I can.
+
+[More information about contributing](https://github.com/raphtlw/symbit/blob/master/CONTRIBUTING.md)
