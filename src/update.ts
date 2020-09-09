@@ -132,7 +132,7 @@ class GooglePixel extends Update {
     spinner.stopAndPersist();
   }
   async patchBootImage() {
-    adb("push", `${this.imageDir}/boot.img`, "/sdcard/");
+    adb("push", path.join(this.imageDir, "boot.img"), "/sdcard/");
     print("\nThe image file has been pushed to your Android device.");
     print(STRINGS.patch_boot_image_file_instructions);
     await inputConfirmation("Done");
@@ -156,7 +156,7 @@ class GooglePixel extends Update {
       glob.sync(`${this.imageDir}/image-*.zip`)[0]
     );
     fastboot("reboot", "bootloader");
-    fastboot("flash", "boot", `${this.imageDir}/magisk_patched.img`);
+    fastboot("flash", "boot", path.join(this.imageDir, "magisk_patched.img"));
     fastboot("reboot");
     spinner.stopAndPersist();
   }
@@ -188,16 +188,26 @@ class OnePlus extends Update {
     await extract(this.softwareZipPath, { dir: DIR });
 
     shell.exec(
-      `python3 -m pip install -r ${process.cwd()}/lib/payload_dumper/requirements.txt`
+      `python3 -m pip install -r ${path.join(
+        process.cwd(),
+        "lib",
+        "payload_dumper",
+        "requirements.txt"
+      )}`
     );
     shell.exec(
-      `python3 ${process.cwd()}/lib/payload_dumper/payload_dumper.py ${DIR}/payload.bin`
+      `python3 ${path.join(
+        process.cwd(),
+        "lib",
+        "payload_dumper",
+        "payload_dumper.py"
+      )} ${path.join(DIR, "payload.bin")}`
     );
     shell.mv("output", DIR);
     spinner.stopAndPersist();
   }
   async patchBootImage() {
-    adb("push", `${DIR}/output/boot.img`, "/sdcard/");
+    adb("push", path.join(DIR, "output", "boot.img"), "/sdcard/");
     print("\nThe image file has been pushed to your Android device.");
     print(STRINGS.patch_boot_image_file_instructions);
     await inputConfirmation("Done");
@@ -212,7 +222,7 @@ class OnePlus extends Update {
     await inputConfirmation("Done");
     adb("sideload", this.softwareZipPath);
     adb("reboot", "bootloader");
-    fastboot("flash", "boot", `${DIR}/magisk_patched.img`);
+    fastboot("flash", "boot", path.join(DIR, "magisk_patched.img"));
     fastboot("reboot");
     spinner.stopAndPersist();
   }

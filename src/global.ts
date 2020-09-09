@@ -3,20 +3,23 @@ import chalk from "chalk";
 import shell from "shelljs";
 import inquirer from "inquirer";
 import os from "os";
+import path from "path";
 
 // GLOBAL VALUES
 // -----------------------------------------------
 //
 
 export const DIR = os.tmpdir();
-export const PLATFORM_TOOLS_DIR = `${DIR}/platform-tools`;
-export const MAGISK_MANAGER_APK_PATH = `${DIR}/magisk-manager.apk`;
+export const PLATFORM_TOOLS_DIR = path.join(DIR, "platform-tools");
+export const MAGISK_MANAGER_APK_PATH = path.join(DIR, "magisk-manager.apk");
 export const spinner = ora();
 
 export enum SUPPORTED_DEVICE_TYPES {
   GOOGLE_PIXEL = "Google Pixel",
   ONEPLUS = "OnePlus",
 }
+
+export type platformToolsVariants = "windows" | "linux" | "darwin";
 
 export enum ACTIONS {
   UPDATE = "update",
@@ -204,12 +207,18 @@ export async function inputChoice(
  * Run ADB on the shell
  */
 export function adb(...command: string[]) {
-  shell.exec(`./${PLATFORM_TOOLS_DIR}/adb ${command.join(" ")}`);
+  if (process.platform === "win32")
+    shell.exec(`${PLATFORM_TOOLS_DIR}\\adb.exe ${command.join(" ")}`);
+  else if (process.platform === "linux" || process.platform === "darwin")
+    shell.exec(`./${PLATFORM_TOOLS_DIR}/adb ${command.join(" ")}`);
 }
 
 /**
  * Run Fastboot on the shell
  */
 export function fastboot(...command: string[]) {
-  shell.exec(`./${PLATFORM_TOOLS_DIR}/fastboot ${command.join(" ")}`);
+  if (process.platform === "win32")
+    shell.exec(`${PLATFORM_TOOLS_DIR}\\fastboot.exe ${command.join(" ")}`);
+  else if (process.platform === "linux" || process.platform === "darwin")
+    shell.exec(`./${PLATFORM_TOOLS_DIR}/fastboot ${command.join(" ")}`);
 }

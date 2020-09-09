@@ -150,7 +150,7 @@ class GooglePixel extends Root {
     spinner.stopAndPersist();
   }
   async patchBootImage() {
-    adb("push", `${this.imageDir}/boot.img`, "/sdcard/");
+    adb("push", path.join(this.imageDir, "boot.img"), "/sdcard/");
     print("\nThe image file has been pushed to your Android device.");
     print(STRINGS.patch_boot_image_file_instructions);
     await inputConfirmation("Done");
@@ -206,20 +206,30 @@ class OnePlus extends Root {
     await extract(this.softwareZipPath, { dir: DIR });
 
     shell.exec(
-      `python3 -m pip install -r ${process.cwd()}/lib/payload_dumper/requirements.txt`
+      `python3 -m pip install -r ${path.join(
+        process.cwd(),
+        "lib",
+        "payload_dumper",
+        "requirements.txt"
+      )}`
     );
     shell.exec(
-      `python3 ${process.cwd()}/lib/payload_dumper/payload_dumper.py ${DIR}/payload.bin`
+      `python3 ${path.join(
+        process.cwd(),
+        "lib",
+        "payload_dumper",
+        "payload_dumper.py"
+      )} ${path.join(DIR, "payload.bin")}`
     );
     shell.mv("output", DIR);
     spinner.stopAndPersist();
   }
   async patchBootImage() {
-    adb("push", `${DIR}/output/boot.img`, "/sdcard/");
+    adb("push", path.join(DIR, "output", "boot.img"), "/sdcard/");
     print("\nThe image file has been pushed to your Android device.");
     print(STRINGS.patch_boot_image_file_instructions);
     await inputConfirmation("Done");
-    adb("pull", "/sdcard/Download/magisk_patched.img", `${DIR}`);
+    adb("pull", "/sdcard/Download/magisk_patched.img", DIR);
   }
   async flash() {
     spinner.start(chalk.greenBright("Rooting your phone..."));
@@ -230,7 +240,7 @@ class OnePlus extends Root {
     await inputConfirmation("Done");
     adb("sideload", this.softwareZipPath);
     adb("reboot", "bootloader");
-    fastboot("flash", "boot", `${DIR}/magisk_patched.img`);
+    fastboot("flash", "boot", path.join(DIR, "magisk_patched.img"));
     fastboot("reboot");
     spinner.stopAndPersist();
   }

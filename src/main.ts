@@ -9,6 +9,7 @@ import {
   ACTIONS,
   PLATFORM_TOOLS_DIR,
   SUPPORTED_DEVICE_TYPES,
+  platformToolsVariants,
   indoc,
   printError,
   inputChoice,
@@ -40,7 +41,7 @@ const argv = yargs
   );
   print("");
 
-  async function downloadPlatformTools(platform: string) {
+  async function downloadPlatformTools(platform: platformToolsVariants) {
     got
       .stream(
         `https://dl.google.com/android/repository/platform-tools-latest-${platform}.zip`
@@ -53,8 +54,10 @@ const argv = yargs
               dir: PLATFORM_TOOLS_DIR,
             });
             fs.unlinkSync(`${PLATFORM_TOOLS_DIR}.zip`);
-            shell.chmod("+x", `${PLATFORM_TOOLS_DIR}/adb`);
-            shell.chmod("+x", `${PLATFORM_TOOLS_DIR}/fastboot`);
+            if (platform === "darwin" || platform === "linux") {
+              shell.chmod("+x", `${PLATFORM_TOOLS_DIR}/adb`);
+              shell.chmod("+x", `${PLATFORM_TOOLS_DIR}/fastboot`);
+            }
           })
       );
   }
