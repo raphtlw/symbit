@@ -17,6 +17,7 @@ import {
   indoc,
   DIR,
   inputChoice,
+  Log,
 } from "./global";
 
 //
@@ -59,6 +60,7 @@ class Update {
         "Android 11",
       ])) === "Android 11"
     ) {
+      Log.i("User upgrading to Android 11");
       print("Upgrading to Android 11? You'll need Magisk canary installed.");
       print(
         "You can get Magisk canary from here: https://raw.githubusercontent.com/topjohnwu/magisk_files/canary/app-debug.apk"
@@ -70,22 +72,27 @@ class Update {
     }
 
     if (!(await inputConfirmation("Do you have Developer options enabled"))) {
+      Log.i("Developer options not enabled");
+      print();
       print(STRINGS.enable_developer_options);
-      inputConfirmation("Done");
+      await inputConfirmation("Done");
     }
 
     if (!(await inputConfirmation("Do you have USB debugging enabled"))) {
+      Log.i("USB debugging not enabled");
+      print();
       print(STRINGS.enable_usb_debugging);
-      inputConfirmation("Done");
+      await inputConfirmation("Done");
     }
   }
   async startADBServer() {
-    print("");
+    print();
+    Log.i("Starting ADB server");
     print("Starting ADB server...");
-    print("");
+    print();
     adb("devices");
     print(STRINGS.adb_always_allow);
-    print("");
+    print();
     print(
       chalk.bold(
         "Please make sure your device appears in the list of devices attached above"
@@ -114,13 +121,13 @@ class GooglePixel extends Update {
   imageDir: string;
 
   async getLatestFactoryImage() {
-    print("");
+    print();
     print(indoc`
       Please download the latest factory image for your Google Pixel and
       unzip the zip file from this website: https://developers.google.com/android/images
     `);
     open("https://developers.google.com/android/images");
-    print("");
+    print();
 
     print(STRINGS.tip_drag_folder_into_terminal);
     this.imageDir = await input("Path to extracted image folder");

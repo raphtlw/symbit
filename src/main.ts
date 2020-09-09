@@ -1,4 +1,3 @@
-import yargs from "yargs";
 import fs from "fs";
 import shell from "shelljs";
 import chalk from "chalk";
@@ -6,6 +5,7 @@ import got from "got";
 import extract from "extract-zip";
 
 import {
+  args,
   ACTIONS,
   PLATFORM_TOOLS_DIR,
   SUPPORTED_DEVICE_TYPES,
@@ -14,17 +14,11 @@ import {
   printError,
   inputChoice,
   print,
+  Log,
+  DIR,
 } from "./global";
 import _root from "./root";
 import _update from "./update";
-
-// prettier-ignore
-const argv = yargs
-  .usage("Usage: $0 <command> [options]")
-  .command(ACTIONS.ROOT, "Root your phone")
-  .command(ACTIONS.UPDATE, "Update your phone")
-  .epilog("copyright 2020")
-  .argv;
 
 (async () => {
   print("");
@@ -42,6 +36,7 @@ const argv = yargs
   print("");
 
   async function downloadPlatformTools(platform: platformToolsVariants) {
+    Log.i("Platform tools not found. Installing...");
     got
       .stream(
         `https://dl.google.com/android/repository/platform-tools-latest-${platform}.zip`
@@ -50,10 +45,13 @@ const argv = yargs
         fs
           .createWriteStream(`${PLATFORM_TOOLS_DIR}.zip`)
           .on("finish", async () => {
+            Log.i("Downloaded platform tools");
             await extract(`${PLATFORM_TOOLS_DIR}.zip`, {
-              dir: PLATFORM_TOOLS_DIR,
+              dir: DIR,
             });
+            Log.i(`Extracted platform tools to ${PLATFORM_TOOLS_DIR}`);
             fs.unlinkSync(`${PLATFORM_TOOLS_DIR}.zip`);
+            Log.i("Deleted platform tools zip file");
             if (platform === "darwin" || platform === "linux") {
               shell.chmod("+x", `${PLATFORM_TOOLS_DIR}/adb`);
               shell.chmod("+x", `${PLATFORM_TOOLS_DIR}/fastboot`);
@@ -72,6 +70,8 @@ const argv = yargs
     } else {
       printError("Android platform tools not found for your device. 😕");
     }
+  } else {
+    Log.i(`Platform tools found in ${PLATFORM_TOOLS_DIR}`);
   }
 
   const deviceType = await inputChoice(
@@ -79,7 +79,7 @@ const argv = yargs
     Object.values(SUPPORTED_DEVICE_TYPES)
   );
 
-  switch (argv._[0]) {
+  switch (args._[0]) {
     case ACTIONS.ROOT:
       await _root(deviceType);
       break;

@@ -4,6 +4,8 @@ import shell from "shelljs";
 import inquirer from "inquirer";
 import os from "os";
 import path from "path";
+import yargs from "yargs";
+import fs from "fs";
 
 // GLOBAL VALUES
 // -----------------------------------------------
@@ -25,6 +27,17 @@ export enum ACTIONS {
   UPDATE = "update",
   ROOT = "root",
 }
+
+export const args = yargs
+  .usage("Usage: $0 <command> [options]")
+  .command(ACTIONS.ROOT, "Root your phone")
+  .command(ACTIONS.UPDATE, "Update your phone")
+  .option("verbose", {
+    alias: "v",
+    type: "boolean",
+    description: "Run with verbose logging",
+  })
+  .epilog("copyright 2020").argv;
 
 export const STRINGS = {
   unsupported_device: "Unfortunately your device has not been supported yet 😕",
@@ -87,8 +100,9 @@ export const STRINGS = {
 // ------------------------------------------
 //
 
-export function print(_: string) {
-  process.stdout.write(_ + "\n");
+export function print(_?: string) {
+  if (_) process.stdout.write(_ + "\n");
+  else process.stdout.write("\n");
 }
 
 export class Log {
@@ -96,46 +110,67 @@ export class Log {
     const date = new Date();
     return `[${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}]`;
   }
-  static d(_: unknown) {
-    console.log(
-      chalk.grey(
-        `${this.getTime()} [${chalk.blue("debug")}] ${chalk.whiteBright(_)}`
-      )
+  private static async logFile(_: unknown) {
+    fs.writeFile(
+      path.join(DIR, `symbit-${new Date().valueOf().toString()}.log`),
+      String(_),
+      (err) => {
+        if (err) throw err;
+      }
     );
+  }
+  static d(_: unknown) {
+    this.logFile(`${this.getTime()} [debug] ${_}`);
+    args.verbose &&
+      console.log(
+        chalk.grey(
+          `${this.getTime()} [${chalk.blue("debug")}] ${chalk.whiteBright(_)}`
+        )
+      );
   }
   static i(_: unknown) {
-    console.log(
-      chalk.grey(
-        `${this.getTime()} [${chalk.whiteBright(
-          chalk.bold("info")
-        )}] ${chalk.whiteBright(_)}`
-      )
-    );
+    this.logFile(`${this.getTime()} [info] ${_}`);
+    args.verbose &&
+      console.log(
+        chalk.grey(
+          `${this.getTime()} [${chalk.whiteBright(
+            chalk.bold("info")
+          )}] ${chalk.whiteBright(_)}`
+        )
+      );
   }
   static w(_: unknown) {
-    console.log(
-      chalk.grey(
-        `${this.getTime()} [${chalk.yellow("warning")}] ${chalk.whiteBright(_)}`
-      )
-    );
+    this.logFile(`${this.getTime()} [warning] ${_}`);
+    args.verbose &&
+      console.log(
+        chalk.grey(
+          `${this.getTime()} [${chalk.yellow("warning")}] ${chalk.whiteBright(
+            _
+          )}`
+        )
+      );
   }
   static e(_: unknown) {
-    console.log(
-      chalk.grey(
-        `${this.getTime()} [${chalk.redBright("error")}] ${chalk.whiteBright(
-          _
-        )}`
-      )
-    );
+    this.logFile(`${this.getTime()} [ERROR] ${_}`);
+    args.verbose &&
+      console.log(
+        chalk.grey(
+          `${this.getTime()} [${chalk.redBright("error")}] ${chalk.whiteBright(
+            _
+          )}`
+        )
+      );
   }
   static f(_: unknown) {
-    console.log(
-      chalk.grey(
-        `${this.getTime()} [${chalk.bold(
-          chalk.redBright("fatal")
-        )}] ${chalk.redBright(_)}`
-      )
-    );
+    this.logFile(`${this.getTime()} [FATAL] ${_}`);
+    args.verbose &&
+      console.log(
+        chalk.grey(
+          `${this.getTime()} [${chalk.bold(
+            chalk.redBright("fatal")
+          )}] ${chalk.redBright(_)}`
+        )
+      );
   }
 }
 
@@ -143,7 +178,7 @@ export class Log {
  * Throws an error to the user
  */
 export function printError(message: string) {
-  console.log(chalk.redBright(message));
+  print(chalk.redBright(message));
   process.exit(1);
 }
 
@@ -210,7 +245,7 @@ export function adb(...command: string[]) {
   if (process.platform === "win32")
     shell.exec(`${PLATFORM_TOOLS_DIR}\\adb.exe ${command.join(" ")}`);
   else if (process.platform === "linux" || process.platform === "darwin")
-    shell.exec(`./${PLATFORM_TOOLS_DIR}/adb ${command.join(" ")}`);
+    shell.exec(`${PLATFORM_TOOLS_DIR}/adb ${command.join(" ")}`);
 }
 
 /**
@@ -220,5 +255,5 @@ export function fastboot(...command: string[]) {
   if (process.platform === "win32")
     shell.exec(`${PLATFORM_TOOLS_DIR}\\fastboot.exe ${command.join(" ")}`);
   else if (process.platform === "linux" || process.platform === "darwin")
-    shell.exec(`./${PLATFORM_TOOLS_DIR}/fastboot ${command.join(" ")}`);
+    shell.exec(`${PLATFORM_TOOLS_DIR}/fastboot ${command.join(" ")}`);
 }
