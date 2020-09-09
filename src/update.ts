@@ -16,6 +16,7 @@ import {
   print,
   indoc,
   DIR,
+  inputChoice,
 } from "./global";
 
 //
@@ -52,6 +53,22 @@ class Update {
     await inputConfirmation("Please connect your phone.");
   }
   async prerequisites() {
+    if (
+      (await inputChoice("What are you upgrading to?", [
+        "Android 10",
+        "Android 11",
+      ])) === "Android 11"
+    ) {
+      print("Upgrading to Android 11? You'll need Magisk canary installed.");
+      print(
+        "You can get Magisk canary from here: https://raw.githubusercontent.com/topjohnwu/magisk_files/canary/app-debug.apk"
+      );
+      if (await inputConfirmation("Open link"))
+        open(
+          "https://raw.githubusercontent.com/topjohnwu/magisk_files/canary/app-debug.apk"
+        );
+    }
+
     if (!(await inputConfirmation("Do you have Developer options enabled"))) {
       print(STRINGS.enable_developer_options);
       inputConfirmation("Done");
