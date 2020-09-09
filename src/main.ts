@@ -40,12 +40,6 @@ const argv = yargs
   );
   print("");
 
-  /**
-   * Downloads the latest version of platform tools for your system.
-   *
-   * @param {string} platform
-   * Platform to be appended to the end of the requested filename.
-   */
   async function downloadPlatformTools(platform: string) {
     got
       .stream(

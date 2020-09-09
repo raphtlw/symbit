@@ -58,7 +58,7 @@ The same goes for MacOS &mdash; `./symbit-macos --help`.
 
 ## About
 
-TWRP has not been updated to support the new /system format and rooting has been more difficult. Although rooting with the stock bootloader usually brings more stability and less problems when rooting, it requires one to go through the hassle of typing many commands into the terminal just to be able to root or update their phone. This program aims to solve that problem.
+TWRP has not been updated to support the new /system partition format and rooting has become more difficult to maintain. Although rooting with the stock bootloader usually brings more stability and less problems when rooting, it requires one to go through the hassle of typing many commands into the terminal just to be able to root or update their phone. This program aims to solve that problem.
 
 ## Supported devices
 
