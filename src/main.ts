@@ -22,9 +22,9 @@ import _root from "./root";
 import _update from "./update";
 
 (async () => {
-  // Create temporary files if they don't exist
+  // Create temporary folders if they don't exist
   if (!fs.existsSync(DIR)) fs.mkdirSync(DIR, { recursive: true });
-  if (!fs.existsSync(DIR)) fs.mkdirSync(LOG_DIR, { recursive: true });
+  if (!fs.existsSync(LOG_DIR)) fs.mkdirSync(LOG_DIR, { recursive: true });
 
   print();
   print(
