@@ -99,6 +99,28 @@ export const STRINGS = {
 
     If you are using Linux, you know what to do 😉
   `,
+
+  magisk_canary_instructions: indoc`
+    You can install Magisk Canary by:
+
+    1. Updating your existing Magisk to the canary channel (recommended)
+    2. Installing the canary version of Magisk Manager
+  `,
+
+  magisk_canary_instructions_update_existing: indoc`
+    To move your existing installation to the Canary channel,
+
+    1. Open Magisk Manager
+    2. Go to the settings page
+    3. Scroll down and tap on "Update Channel"
+    4. Tap "Custom Channel"
+    5. In the input box, type https://raw.githubusercontent.com/topjohnwu/magisk_files/canary/debug.json
+  `,
+
+  magisk_canary_instructions_install_new: indoc`
+    You can install the canary version of Magisk here:
+    https://raw.githubusercontent.com/topjohnwu/magisk_files/canary/app-debug.apk
+  `,
 };
 
 // HELPER FUNCTIONS

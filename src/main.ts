@@ -33,7 +33,7 @@ import _update from "./update";
       ---
       A root manager for Android devices which allows you to update
       existing rooted devices, tweak magisk and run other commands which improve the
-      Android root experience and adds onto Magisk. 🚀
+      Android root experience and adds on to Magisk. 🚀
   
       - raphtlw
     `)

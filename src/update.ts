@@ -62,13 +62,20 @@ class Update {
     ) {
       Log.i("User upgrading to Android 11");
       print("Upgrading to Android 11? You'll need Magisk canary installed.");
-      print(
-        "You can get Magisk canary from here: https://raw.githubusercontent.com/topjohnwu/magisk_files/canary/app-debug.apk"
-      );
-      if (await inputConfirmation("Open link"))
-        open(
-          "https://raw.githubusercontent.com/topjohnwu/magisk_files/canary/app-debug.apk"
-        );
+      print(STRINGS.magisk_canary_instructions);
+      if ((await inputChoice("Choice", ["1", "2"])) === "1") {
+        print(STRINGS.magisk_canary_instructions_update_existing);
+        if (await inputConfirmation("Open link in browser"))
+          open(
+            "https://raw.githubusercontent.com/topjohnwu/magisk_files/canary/debug.json"
+          );
+      } else {
+        print(STRINGS.magisk_canary_instructions_install_new);
+        if (await inputConfirmation("Open link in browser"))
+          open(
+            "https://raw.githubusercontent.com/topjohnwu/magisk_files/canary/app-debug.apk"
+          );
+      }
     }
 
     if (!(await inputConfirmation("Do you have Developer options enabled"))) {
