@@ -12,9 +12,9 @@ import fs from "fs";
 //
 
 export const DIR = path.join(os.tmpdir(), "symbit");
+export const LOG_DIR = path.join(DIR, ".logs");
 export const LOG_PATH = path.join(
-  DIR,
-  ".logs",
+  LOG_DIR,
   `symbit-${new Date().valueOf().toString()}.log`
 );
 export const PLATFORM_TOOLS_DIR = path.join(DIR, "platform-tools");
