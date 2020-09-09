@@ -16,13 +16,19 @@ import {
   print,
   Log,
   DIR,
+  LOG_PATH,
 } from "./global";
 import _root from "./root";
 import _update from "./update";
 
 (async () => {
+  // Create temporary files if they don't exist
   if (!fs.existsSync(DIR))
     fs.mkdir(DIR, { recursive: true }, (err) => {
+      if (err) throw err;
+    });
+  if (!fs.existsSync(LOG_PATH))
+    fs.mkdir(LOG_PATH, { recursive: true }, (err) => {
       if (err) throw err;
     });
 
