@@ -87,7 +87,9 @@ class Update {
     print(STRINGS.adb_always_allow);
     print("");
     print(
-      "Please make sure your device appears in the list of devices attached above"
+      chalk.bold(
+        "Please make sure your device appears in the list of devices attached above"
+      )
     );
   }
   async getLatestFactoryImage() {}
