@@ -30,17 +30,17 @@
 
 ### Linux + MacOS
 
-For Linux and MacOS, it's super easy. You just have to open up a terminal in the directory you downloaded the latest version of Symbit from and do `./symbit-linux` and hit enter (or `./symbit-macos`) to run the program. If it doesn't work, you need to give it executable permissions. To do so, just type `chmod +x symbit-linux` (or `chmod +x symbit-macos`) in the terminal and hit enter.
+For Linux and MacOS, it's super easy. You just have to open up a terminal in the directory you downloaded the latest version of Symbit from and do `./symbit` and hit enter to run the program. If it doesn't work, you need to give it executable permissions. To do so, just type `chmod +x symbit` in the terminal and hit enter.
 
 ### Windows
 
-For Windows, you'll need to open up a terminal (cmd or powershell) in the directory you downloaded the program, type `symbit-windows.exe` and hit enter. If it doesn't work, just type `.\symbit-windows.exe` to make sure you are running the correct program and not the program in %PATH%.
+For Windows, you'll need to open up a terminal (cmd or powershell) in the directory you downloaded the program, type `symbit.exe` and hit enter. If it doesn't work, just type `.\symbit.exe`.
 
 ### Command line arguments
 
-To get a list of commands you can use, follow the usage instructions above and add `--help` to the end of your command. So, if you are using Linux, you would type `./symbit-linux --help` to get help for the Symbit command line program.
+To get a list of commands you can use, follow the usage instructions above and add `--help` to the end of your command. So, if you are using Linux, you would type `./symbit --help` to get help for the Symbit command line program.
 
-The same goes for MacOS &mdash; `./symbit-macos --help`.
+The same goes for MacOS &mdash; `./symbit --help`.
 
 ### Examples
 
