@@ -21,7 +21,7 @@ import _root from "./root";
 import _update from "./update";
 
 (async () => {
-  print("");
+  print();
   print(
     chalk.bold(indoc`
       SYMBIT
@@ -33,7 +33,7 @@ import _update from "./update";
       - raphtlw
     `)
   );
-  print("");
+  print();
 
   async function downloadPlatformTools(platform: platformToolsVariants) {
     Log.i("Platform tools not found. Installing...");
