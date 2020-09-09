@@ -12,6 +12,10 @@ import fs from "fs";
 //
 
 export const DIR = os.tmpdir();
+export const LOG_PATH = path.join(
+  DIR,
+  `symbit-${new Date().valueOf().toString()}.log`
+);
 export const PLATFORM_TOOLS_DIR = path.join(DIR, "platform-tools");
 export const MAGISK_MANAGER_APK_PATH = path.join(DIR, "magisk-manager.apk");
 export const spinner = ora();
@@ -111,13 +115,9 @@ export class Log {
     return `[${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}]`;
   }
   private static async logFile(_: unknown) {
-    fs.writeFile(
-      path.join(DIR, `symbit-${new Date().valueOf().toString()}.log`),
-      String(_),
-      (err) => {
-        if (err) throw err;
-      }
-    );
+    fs.writeFile(LOG_PATH, String(_), (err) => {
+      if (err) throw err;
+    });
   }
   static d(_: unknown) {
     this.logFile(`${this.getTime()} [debug] ${_}`);
