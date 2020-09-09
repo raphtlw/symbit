@@ -21,6 +21,11 @@ import _root from "./root";
 import _update from "./update";
 
 (async () => {
+  if (!fs.existsSync(DIR))
+    fs.mkdir(DIR, { recursive: true }, (err) => {
+      if (err) throw err;
+    });
+
   print();
   print(
     chalk.bold(indoc`
