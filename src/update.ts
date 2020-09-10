@@ -4,6 +4,7 @@ import chalk from "chalk";
 import open from "open";
 import path from "path";
 import shell from "shelljs";
+import fs from "fs/promises";
 
 import {
   SUPPORTED_DEVICE_TYPES,
@@ -130,19 +131,27 @@ class GooglePixel extends Update {
   async getLatestFactoryImage() {
     print();
     print(indoc`
-      Please download the latest factory image for your Google Pixel and
-      unzip the zip file from this website: https://developers.google.com/android/images
+      Please download the latest factory image for your Google Pixel
+      from this website: https://developers.google.com/android/images
     `);
     open("https://developers.google.com/android/images");
     print();
 
     print(STRINGS.tip_drag_folder_into_terminal);
-    this.imageDir = await input("Path to extracted image folder");
-    this.imageDir = path.resolve(this.imageDir);
+    let imageZipDirPath = await input("Path to image folder");
+    imageZipDirPath = path.resolve(imageZipDirPath);
+    Log.i(`Google Pixel factory image zip file location: ${imageZipDirPath}`);
     spinner.start("Processing...");
+    await extract(imageZipDirPath, { dir: DIR });
+    this.imageDir = glob.sync(
+      `${DIR}/${path.basename(imageZipDirPath, ".zip").split("-")[0]}*`
+    )[0];
+    Log.i(`Image directory written to class: ${this.imageDir}`);
     await extract(glob.sync(`${this.imageDir}/image-*.zip`)[0], {
       dir: this.imageDir,
     });
+    fs.unlink(`${this.imageDir}.zip`);
+    Log.i("Extracted inner image folder");
     spinner.stopAndPersist();
   }
   async patchBootImage() {
