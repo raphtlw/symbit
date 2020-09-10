@@ -142,6 +142,7 @@ class GooglePixel extends Update {
     imageZipDirPath = path.resolve(imageZipDirPath);
     Log.i(`Google Pixel factory image zip file location: ${imageZipDirPath}`);
     spinner.start("Processing...");
+    Log.d(`Factory image exists: ${(await fs.stat(imageZipDirPath)).isFile()}`);
     await extract(imageZipDirPath, { dir: DIR });
     this.imageDir = glob.sync(
       `${DIR}/${path.basename(imageZipDirPath, ".zip").split("-")[0]}*`
