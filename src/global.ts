@@ -20,6 +20,7 @@ export const LOG_PATH = path.join(
 export const PLATFORM_TOOLS_DIR = path.join(DIR, "platform-tools");
 export const MAGISK_MANAGER_APK_PATH = path.join(DIR, "magisk-manager.apk");
 export const spinner = ora();
+// export const PACKAGED = typeof (process as any).pkg !== "undefined";
 
 export enum SUPPORTED_DEVICE_TYPES {
   GOOGLE_PIXEL = "Google Pixel",
