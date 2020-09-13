@@ -1,4 +1,5 @@
 mod style;
+mod util;
 mod views;
 use iced::{
     button, scrollable, window, Align, Button, Color, Column, Container, Element, Length, Row,
@@ -6,7 +7,8 @@ use iced::{
 };
 use indoc::indoc;
 
-fn main() {
+#[tokio::main]
+async fn main() {
     Main::run(Settings {
         antialiasing: true,
         window: window::Settings {

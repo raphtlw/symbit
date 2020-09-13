@@ -7,7 +7,8 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-indoc = "1.0"
-colored = "2"
-clap = "3.0.0-beta.1"
 iced = "0.1"
+indoc = "1.0"
+reqwest = { version = "0.10", features = ["json"] }
+tokio = { version = "0.2", features = ["full"] }
+zip = { version = "0.5", default-features = false }
