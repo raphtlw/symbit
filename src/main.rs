@@ -15,7 +15,6 @@ use iced::{
 };
 use std::env;
 use std::fs;
-use steps::{StepMessage, Steps};
 use util::*;
 
 fn main() {
@@ -31,8 +30,8 @@ fn main() {
 
 struct Main {
     view: View,
-    root_steps: Steps,
-    update_steps: Steps,
+    root_steps: root::RootSteps,
+    update_steps: update::UpdateSteps,
     scroll: scrollable::State,
 }
 
@@ -43,7 +42,8 @@ pub enum Message {
     BackButtonPressed,
     NextButtonPressed,
     InitComplete(Result<(), Error>),
-    StepMessage(StepMessage),
+    RootStepMessage(root::RootStepMessage),
+    UpdateStepMessage(update::UpdateStepMessage),
 }
 
 impl Application for Main {
@@ -59,8 +59,8 @@ impl Application for Main {
                     update_button: button::State::new(),
                 },
                 scroll: scrollable::State::new(),
-                root_steps: Steps::RootSteps(root::RootSteps::new()),
-                update_steps: Steps::UpdateSteps(update::UpdateSteps::new()),
+                root_steps: root::RootSteps::new(),
+                update_steps: update::UpdateSteps::new(),
             },
             Command::perform(View::init(), Message::InitComplete),
         )
@@ -88,20 +88,16 @@ impl Application for Main {
             }
             Message::InitComplete { .. } => (),
             Message::BackButtonPressed => {
-                println!("Back button pressed");
                 self.root_steps.go_back();
                 self.update_steps.go_back();
             }
             Message::NextButtonPressed => {
-                println!("Next button pressed");
                 self.root_steps.advance();
                 self.update_steps.advance();
             }
-            Message::StepMessage(msg) => {
-                self.root_steps.update(msg);
-                self.update_steps.update(msg);
-            }
-        }
+            Message::RootStepMessage(msg) => self.root_steps.update(msg),
+            Message::UpdateStepMessage(msg) => self.update_steps.update(msg),
+        };
 
         Command::none()
     }
@@ -117,12 +113,12 @@ enum View {
         update_button: button::State,
     },
     Root {
-        steps: Steps,
+        steps: root::RootSteps,
         back_button: button::State,
         next_button: button::State,
     },
     Update {
-        steps: Steps,
+        steps: update::UpdateSteps,
         back_button: button::State,
         next_button: button::State,
     },
@@ -168,7 +164,7 @@ impl<'a> View {
                 "windows" => download_platform_tools("windows").await,
                 "macos" => download_platform_tools("darwin").await,
                 _ => panic!("Platform not supported"),
-            }
+            };
         }
 
         Ok(())
@@ -203,8 +199,11 @@ impl<'a> View {
                     .push(
                         Button::new(
                             root_button,
-                            Container::new(Text::new("start").size(15)).padding(4),
+                            Text::new("start")
+                                .size(15)
+                                .horizontal_alignment(HorizontalAlignment::Center),
                         )
+                        .padding(5)
                         .on_press(Message::RootButtonPressed)
                         .style(style::Button::Primary)
                         .min_width(50),
@@ -218,8 +217,11 @@ impl<'a> View {
                     .push(
                         Button::new(
                             update_button,
-                            Container::new(Text::new("start").size(15)).padding(4),
+                            Text::new("start")
+                                .size(15)
+                                .horizontal_alignment(HorizontalAlignment::Center),
                         )
+                        .padding(5)
                         .on_press(Message::UpdateButtonPressed)
                         .style(style::Button::Primary)
                         .min_width(50),
@@ -228,9 +230,8 @@ impl<'a> View {
             )
     }
 
-    fn container(
-        header: &str,
-        steps: &'a mut Steps,
+    fn root_view(
+        steps: &'a mut root::RootSteps,
         back_button_state: &'a mut button::State,
         next_button_state: &'a mut button::State,
     ) -> Column<'a, Message> {
@@ -244,7 +245,6 @@ impl<'a> View {
         .min_width(50)
         .style(style::Button::Secondary)
         .on_press(Message::BackButtonPressed);
-
         let next_button = Button::new(
             next_button_state,
             Text::new("Next")
@@ -270,25 +270,55 @@ impl<'a> View {
 
         Column::new()
             .padding(20)
-            .push(Text::new(header).size(20))
+            .push(Text::new("Root").size(20))
             .push(Space::new(Length::Fill, Length::from(10)))
-            .push(steps.view().map(Message::StepMessage))
+            .push(steps.view().map(Message::RootStepMessage))
             .push(controls)
     }
 
-    fn root_view(
-        steps: &'a mut Steps,
-        back_button_state: &'a mut button::State,
-        next_button_state: &'a mut button::State,
-    ) -> Column<'a, Message> {
-        Self::container("Root", steps, back_button_state, next_button_state)
-    }
-
     fn update_view(
-        steps: &'a mut Steps,
+        steps: &'a mut update::UpdateSteps,
         back_button_state: &'a mut button::State,
         next_button_state: &'a mut button::State,
     ) -> Column<'a, Message> {
-        Self::container("Update", steps, back_button_state, next_button_state)
+        let back_button = Button::new(
+            back_button_state,
+            Text::new("Back")
+                .horizontal_alignment(HorizontalAlignment::Center)
+                .size(15),
+        )
+        .padding(6)
+        .min_width(50)
+        .style(style::Button::Secondary)
+        .on_press(Message::BackButtonPressed);
+        let next_button = Button::new(
+            next_button_state,
+            Text::new("Next")
+                .horizontal_alignment(HorizontalAlignment::Center)
+                .size(15),
+        )
+        .padding(6)
+        .min_width(50)
+        .style(style::Button::Primary)
+        .on_press(Message::NextButtonPressed);
+
+        let mut controls = Row::new();
+
+        if steps.has_previous() {
+            controls = controls.push(back_button);
+        }
+
+        controls = controls.push(Space::with_width(Length::Fill));
+
+        if steps.can_continue() {
+            controls = controls.push(next_button);
+        }
+
+        Column::new()
+            .padding(20)
+            .push(Text::new("Root").size(20))
+            .push(Space::new(Length::Fill, Length::from(10)))
+            .push(steps.view().map(Message::UpdateStepMessage))
+            .push(controls)
     }
 }
