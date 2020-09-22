@@ -1,0 +1,19 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font-family: -apple-system, BlinkMacSystemFont, Inter, "Segoe UI", Ubuntu,
+    Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  color: rgb(235, 235, 235);
+}
+
+body {
+  background-color: rgb(32, 35, 46);
+}

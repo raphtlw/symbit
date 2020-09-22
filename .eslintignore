@@ -1,0 +1,4 @@
+**/*.js
+**/*.md
+public/build/**
+out/

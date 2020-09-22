@@ -1,0 +1,11 @@
+/node_modules/
+dist/
+__build/
+platform-tools/
+output/
+public/build
+src/build
+out
+temp
+public/*.js
+public/*.js.map
