@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+
 import { app, BrowserWindow } from "electron";
 import * as path from "path";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
-// eslint-disable-next-line
 if (require("electron-squirrel-startup")) {
   app.quit();
 }
@@ -43,7 +44,6 @@ app.on("activate", () => {
 });
 
 // Enable live reload when in development
-// eslint-disable-next-line
 require("electron-is-dev") &&
   require("electron-reload")(__dirname, {
     electron: path.join(__dirname, "../node_modules", ".bin", "electron"),

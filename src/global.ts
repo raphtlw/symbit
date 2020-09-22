@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable @typescript-eslint/interface-name-prefix */
+
 import type { Remote } from "electron";
 import type * as Path from "path";
 import type * as Fs from "fs";
@@ -36,7 +39,7 @@ export interface IStep {
   description: string;
 }
 
-export function navigate(page: page) {
+export function navigate(page: page): void {
   currentPage.set(page);
   pageHistory.update((value) => {
     if (page !== value[value.length - 1]) {
@@ -62,6 +65,26 @@ export type platformToolsVariants = "windows" | "linux" | "darwin";
 export enum ACTIONS {
   UPDATE = "update",
   ROOT = "root",
+}
+
+/**
+ * # Indented Documents
+ *
+ * Template literal function to generate unindented strings
+ *
+ * @example
+ * indoc`
+ *   test
+ * `
+ * // output: `test`
+ */
+export function indoc(document: TemplateStringsArray): string {
+  // console.log(document[0].split("\n"));
+  return document[0]
+    .split("\n")
+    .map((item) => item.trim())
+    .filter((item) => item.length > 0)
+    .join("\n");
 }
 
 export const STRINGS = {
@@ -179,26 +202,6 @@ export class Log {
 export function printError(message: string) {
   console.log(message);
   process.exit(1);
-}
-
-/**
- * # Indented Documents
- *
- * Template literal function to generate unindented strings
- *
- * @example
- * indoc`
- *   test
- * `
- * // output: `test`
- */
-export function indoc(document: TemplateStringsArray): string {
-  // console.log(document[0].split("\n"));
-  return document[0]
-    .split("\n")
-    .map((item) => item.trim())
-    .filter((item) => item.length > 0)
-    .join("\n");
 }
 
 /**
