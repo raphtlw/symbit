@@ -19,15 +19,15 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 14
-      - name: Install dependencies
-        run: |
-          npm i
       - name: Extra steps for macOS
         if: ${{ matrix.os == 'macos-latest' }}
         run: |
           npm i -g nan
           export NODE_PATH=$(npm root -g)
           npm i -D macos-alias
+      - name: Install dependencies
+        run: |
+          npm i
       - name: Build
         run: npm run build
 
