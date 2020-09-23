@@ -5,9 +5,11 @@
 </script>
 
 <style>
+  .link {
+    text-decoration: underline;
+  }
   .link:hover {
     cursor: pointer;
-    text-decoration: underline;
   }
 </style>
 

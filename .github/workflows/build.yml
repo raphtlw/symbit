@@ -1,0 +1,39 @@
+on:
+  push:
+    branches:
+      - prod
+
+jobs:
+  build:
+    name: Build for all platforms
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install Node.js, NPM and Yarn
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      - name: Build
+        run: npm run build
+
+  release:
+    name: Package and Release
+    needs: [build]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Package
+        run: |
+          zip -r linux.zip out/make/deb/x64/symbit* out/make/rpm/x64/symbit* out/make/zip/linux/x64/*.zip
+          # zip -r windows.zip out/make
+          ls out/make
+
+        

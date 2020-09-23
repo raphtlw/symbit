@@ -7,6 +7,7 @@ import type * as Fs from "fs";
 import type * as Child_process from "child_process";
 import type * as Util from "util";
 import type * as Stream from "stream";
+import type * as Glob from "glob";
 import { writable } from "svelte/store";
 const remote: Remote = window.require("electron").remote;
 const path: typeof Path = window.require("path");
@@ -20,10 +21,11 @@ const exec = child_process.execSync;
 const spawn = child_process.spawn;
 const util: typeof Util = window.require("util");
 const stream: typeof Stream = window.require("stream");
+const glob: typeof Glob = window.require("glob");
 
 // RE-EXPORTS
 // -----------------------------------------------
-export { remote, path, fs, got, extract, spawn };
+export { remote, path, fs, got, extract, spawn, glob, util, exec };
 
 // GLOBAL VALUES
 // -----------------------------------------------
@@ -49,7 +51,7 @@ export function navigate(page: page): void {
   });
 }
 
-export const DIR = path.join(remote.app.getPath("temp"), "symbit");
+export const DIR = path.join(remote.app.getPath("cache"), "symbit");
 export const LOG_DIR = path.join(DIR, ".logs");
 export const LOG_PATH = path.join(LOG_DIR, `symbit.log`);
 export const PLATFORM_TOOLS_DIR = path.join(DIR, "platform-tools");
@@ -116,16 +118,11 @@ export const STRINGS = {
   tip_drag_folder_into_terminal: indoc`TIP: You can drag and drop the folder into the terminal`,
 
   patch_boot_image_file_instructions: indoc`
-    Now you'll need to patch the boot image file using the Magisk Manager app
-    on your Android device.
-
     1. Open Magisk
     2. Tap 'install'
     3. Tap 'install' again
     4. Tap 'Select and Patch a File'
-    5. Go to the root of your Pixel's file manager
-       and select the boot.img file
-    NOTE: After patching the boot.img, DO NOT REBOOT.
+    5. Go to the root of your Pixel's file manager and select the boot.img file
   `,
 
   install_python_instructions: indoc`
