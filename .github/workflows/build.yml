@@ -21,12 +21,13 @@ jobs:
           node-version: 14
       - name: Install dependencies
         run: |
-          if [[ "$OSTYPE" == "darwin"* ]]; then
-            npm i -g nan
-            export NODE_PATH=$(npm root -g)
-            npm i -D macos-alias
-          fi
           npm i
+      - name: Extra steps for macOS
+        if: ${{ matrix.os == 'macos-latest' }}
+        run: |
+          npm i -g nan
+          export NODE_PATH=$(npm root -g)
+          npm i -D macos-alias
       - name: Build
         run: npm run build
 
