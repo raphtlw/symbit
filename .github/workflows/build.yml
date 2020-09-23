@@ -31,7 +31,7 @@ jobs:
       - name: Build
         run: npm run build
       - name: Upload artifact for next job
-        uses: actions/download-artifact@v2
+        uses: actions/upload-artifact@v2
         with:
           name: build
           path: out/make/
