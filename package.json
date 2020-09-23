@@ -6,6 +6,10 @@
   "description": "A simple root manager for Android devices without TWRP",
   "productDescription": "A simple root manager for Android devices without TWRP",
   "license": "MIT",
+  "author": {
+    "name": "Raphael T.",
+    "email": "raphpb1912@gmail.com"
+  },
   "scripts": {
     "start": "run-p start:*",
     "build": "run-s build:*",
