@@ -28,33 +28,22 @@
 
 ## Usage
 
-### Linux + MacOS
+Install the respective version for your OS platform, then install the correct package.
 
-For Linux and MacOS, it's super easy. You just have to open up a terminal in the directory you downloaded the latest version of Symbit from and do `./symbit` and hit enter to run the program. If it doesn't work, you need to give it executable permissions. To do so, just type `chmod +x symbit` in the terminal and hit enter.
+### Linux
+
+The linux package includes builds for Ubuntu, Debian, RHEL, CentOS, and Fedora.
+If your distribution is not found, just use the linux zip version. It is a
+universal package for Linux and works with any distribution.
+
+### MacOS
+
+The macos package includes a DMG and zip. You can choose whichever version you want
+to install.
 
 ### Windows
 
-For Windows, you'll need to open up a terminal (cmd or powershell) in the directory you downloaded the program, type `symbit.exe` and hit enter. If it doesn't work, just type `.\symbit.exe`.
-
-### Command line arguments
-
-To get a list of commands you can use, follow the usage instructions above and add `--help` to the end of your command. So, if you are using Linux, you would type `./symbit --help` to get help for the Symbit command line program.
-
-The same goes for MacOS &mdash; `./symbit --help`.
-
-### Examples
-
-#### Linux + MacOS
-
-- `./symbit --help` - Lists all the arguments you can specify for the program
-- `./symbit update` - Updates your phone to the latest Android version
-- `./symbit root` - Root your phone via Magisk
-
-#### Windows
-
-- `symbit.exe --help` - Lists all the arguments you can specify for the program
-- `symbit.exe update` - Updates your phone to the latest Android version
-- `symbit.exe root` - Root your phone via Magisk
+The windows package includes an exe file which is the installer. Just run it to install Symbit.
 
 ## About
 
@@ -104,6 +93,7 @@ Here's a list of what I plan to do in the future with this project 👇
 
 | Goal                                                   | Status |
 | ------------------------------------------------------ | ------ |
+| Migrate completely to a GUI based interface            | 70%    |
 | Support for **all** OnePlus and Sony devices           | 40%    |
 | Support for **majority** of Samsung and Xiaomi devices | 0%     |
 | Support for major custom roms                          | 0%     |
