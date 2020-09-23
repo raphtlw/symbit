@@ -23,7 +23,7 @@
 ## Install
 
 - [Linux](https://github.com/raphtlw/symbit/releases/latest/download/linux.zip)
-<!-- - [Mac](https://github.com/raphtlw/symbit/releases/latest/download/macos.zip) -->
+- [Mac](https://github.com/raphtlw/symbit/releases/latest/download/macos.zip)
 - [Windows](https://github.com/raphtlw/symbit/releases/latest/download/windows.zip)
 
 ## Usage
