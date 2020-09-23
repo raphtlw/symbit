@@ -85,7 +85,8 @@
     "svelte-check": "^1.0.46",
     "svelte-preprocess": "^4.0.0",
     "tslib": "^2.0.0",
-    "typescript": "^3.9.3"
+    "typescript": "^3.9.3",
+    "macos-alias": "*"
   },
   "dependencies": {
     "electron-is-dev": "^1.2.0",
