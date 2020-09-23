@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: 14
       - name: Extra steps for macOS
-        if: ${{ matrix.os == 'macos-latest' }}
+        if: matrix.os == 'macos-latest'
         run: |
           npm i -g nan
           export NODE_PATH=$(npm root -g)
@@ -30,6 +30,11 @@ jobs:
           npm i
       - name: Build
         run: npm run build
+      - name: Upload artifact for next job
+        uses: actions/download-artifact@v2
+        with:
+          name: build
+          path: out/make/
 
   release:
     name: Package and Release
@@ -37,12 +42,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - name: Download artifact from previous job
+        uses: actions/download-artifact@v2
+        with:
+          name: build
       - name: Package
         run: |
-          zip -r linux.zip out/make/deb/x64/symbit* out/make/rpm/x64/symbit* out/make/zip/linux/x64/*.zip
+          zip -r linux.zip make/deb/x64/symbit* make/rpm/x64/symbit* make/zip/linux/x64/*.zip
           # zip -r windows.zip out/make
-          ls out/make
+          ls make/
 
         
