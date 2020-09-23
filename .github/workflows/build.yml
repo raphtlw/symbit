@@ -48,8 +48,8 @@ jobs:
           name: build
       - name: Package
         run: |
-          zip -r linux.zip make/deb/x64/symbit* make/rpm/x64/symbit* make/zip/linux/x64/*.zip
+          # zip -r linux.zip make/deb/x64/symbit* make/rpm/x64/symbit* make/zip/linux/x64/*.zip
           # zip -r windows.zip out/make
-          ls make/
+          ls -lah
 
         
