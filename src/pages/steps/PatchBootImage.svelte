@@ -31,7 +31,9 @@
     manager and select the boot.img file
   </p>
   <span class="spacing-bottom">NOTE: After patching the boot.img, DO NOT REBOOT.</span>
-  <Button label="Finished patching" onClick={() => patchBootImageFinished} />
+  <Button
+    label="Finished patching"
+    onClick={() => (patchBootImageFinished = true)} />
   {#if patchBootImageFinished}
     {#await pullBootImageFile()}
       <div class="loading">
