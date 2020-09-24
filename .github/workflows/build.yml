@@ -47,8 +47,9 @@ jobs:
       - name: Create tag
         id: create_tag
         uses: Klemensas/action-autotag@stable
-        with:
+        env:
           GITHUB_TOKEN: ${{ github.token }}
+        with:
           tag_prefix: "v"
           tag_suffix: "-alpha"
       - name: Download artifact from previous job
