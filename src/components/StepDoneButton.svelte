@@ -1,7 +1,6 @@
 <script lang="ts">
   import Button from "./Button.svelte";
-
-  export let onClick: svelte.JSX.EventHandler;
+  import { nextStep } from "../global";
 </script>
 
 <style>
@@ -11,5 +10,5 @@
 </style>
 
 <div class="wrapper">
-  <Button label="Done" {onClick} />
+  <Button label="Done" onClick={nextStep} />
 </div>

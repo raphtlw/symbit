@@ -29,5 +29,5 @@
 <main>
   <h1>{step.name}</h1>
   <h2>{step.description}</h2>
-  <slot />
+  <svelte:component this={step.component} />
 </main>

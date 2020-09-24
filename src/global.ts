@@ -34,11 +34,15 @@ export { remote, path, fs, got, extract, spawn, glob, util, exec };
 export type page = "index" | "root" | "update";
 export const currentPage = writable<page>("index");
 export const pageHistory = writable<page[]>(["index"]);
+export const currentStep = writable<IStep>(undefined);
+export const currentSteps = writable<IStep[]>(undefined);
+export const imageDirStore = writable<string>(undefined);
 
 export interface IStep {
   id: number;
   name: string;
   description: string;
+  component: unknown;
 }
 
 export function navigate(page: page): void {
@@ -48,6 +52,16 @@ export function navigate(page: page): void {
       value.push(page);
     }
     return value;
+  });
+}
+
+export function nextStep() {
+  let stepsValue: IStep[];
+  currentStep.update((value) => {
+    currentSteps.subscribe((value) => {
+      stepsValue = value;
+    })();
+    return stepsValue[stepsValue.findIndex((item) => item === value) + 1];
   });
 }
 
@@ -114,8 +128,6 @@ export const STRINGS = {
     Please check the 'always allow' option for ADB
     if you see a popup asking you to allow this PC to connect with ADB.
   `,
-
-  tip_drag_folder_into_terminal: indoc`TIP: You can drag and drop the folder into the terminal`,
 
   patch_boot_image_file_instructions: indoc`
     1. Open Magisk

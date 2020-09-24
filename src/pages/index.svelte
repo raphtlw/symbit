@@ -1,7 +1,5 @@
 <script lang="ts">
-  import Dropdown from "../components/Dropdown.svelte";
-  import Button from "../components/Button.svelte";
-  import Link from "../components/Link.svelte";
+  import { Button, Dropdown, Link } from "../components";
   import { SUPPORTED_DEVICE_TYPES, navigate, remote } from "../global";
 </script>
 

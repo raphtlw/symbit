@@ -2,4 +2,4 @@
   export let label: string;
 </script>
 
-<main><input type="text" /></main>
+<main><input type="text" placeholder={label} /></main>
