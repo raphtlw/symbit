@@ -93,11 +93,11 @@ Here's a list of what I plan to do in the future with this project 👇
 
 | Goal                                                   | Status |
 | ------------------------------------------------------ | ------ |
-| Migrate completely to a GUI based interface            | 70%    |
+| Migrate completely to a GUI based interface            | 80%    |
 | Support for **all** OnePlus and Sony devices           | 40%    |
 | Support for **majority** of Samsung and Xiaomi devices | 0%     |
 | Support for major custom roms                          | 0%     |
-| Ability to run on the device itself with Termux        | 20%    |
+| Ability to run on the device itself without a PC       | 20%    |
 
 ## Contributing
 
