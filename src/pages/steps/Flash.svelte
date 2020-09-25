@@ -1,35 +1,26 @@
 <script lang="ts">
   import { Loader, StepDoneButton } from "../../components";
   import { adb, fastboot, glob, imageDirStore } from "../../global";
+  import { onMount } from "svelte";
 
-  let imageDir: string;
+  // @ts-ignore
+  import FlashWorker from "web-worker:./Flash";
+  const flashWorker: Worker = new FlashWorker();
 
-  imageDirStore.subscribe((value) => (imageDir = value));
+  onMount(() => {
+    flashWorker.postMessage("start");
+    flashing = true;
+    flashWorker.onmessage = (e) => {
+      if (e.data == "done") flashing = false;
+    };
+  });
 
-  async function flash() {
-    adb("reboot", "bootloader");
-    fastboot(
-      "flash",
-      "bootloader",
-      glob.sync(`${imageDir}/bootloader-*.img`)[0]
-    );
-    fastboot("reboot", "bootloader");
-    fastboot("flash", "radio", glob.sync(`${imageDir}/radio-*.img`)[0]);
-    fastboot("reboot", "bootloader");
-    fastboot(
-      "--skip-reboot",
-      "update",
-      glob.sync(`${imageDir}/image-*.zip`)[0]
-    );
-    fastboot("reboot", "bootloader");
-    fastboot("flash", "boot", `${imageDir}/magisk_patched.img`);
-    fastboot("reboot");
-  }
+  let flashing: boolean = false;
 </script>
 
-{#await flash()}
-  <span class="spacing-bottom">Rooting your phone</span>
+<span class="spacing-bottom">Rooting your phone</span>
+{#if flashing}
   <Loader primary />
-{:then}
+{:else}
   <StepDoneButton />
-{/await}
+{/if}
