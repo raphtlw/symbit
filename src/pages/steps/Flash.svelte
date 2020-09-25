@@ -1,11 +1,8 @@
 <script lang="ts">
   import { Loader, StepDoneButton } from "../../components";
-  import { adb, fastboot, glob, imageDirStore } from "../../global";
   import { onMount } from "svelte";
 
-  // @ts-ignore
-  import FlashWorker from "web-worker:./Flash";
-  const flashWorker: Worker = new FlashWorker();
+  const flashWorker = new Worker("./flash.js");
 
   onMount(() => {
     flashWorker.postMessage("start");

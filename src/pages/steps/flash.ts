@@ -1,9 +1,10 @@
+// eslint-disable-next-line
 import { adb, fastboot, glob, imageDirStore } from "../../global";
 
 let imageDir: string;
 imageDirStore.subscribe((value) => (imageDir = value));
 
-onmessage = (e) => {
+onmessage = (e): void => {
   if (e.data == "start") {
     adb("reboot", "bootloader");
     fastboot(
