@@ -5,9 +5,9 @@
     DownloadMagisk,
     GetLatestFactoryImage,
     PatchBootImage,
-    RootFinish,
-    RootFlash,
-    RootPrerequisites,
+    Finish,
+    Flash,
+    Prerequisites,
     UnlockBootloader,
   } from "./steps";
   import type { IStep } from "../global";
@@ -35,7 +35,7 @@
       id: 1,
       name: "Prerequisites",
       description: "Make sure you do these before starting.",
-      component: RootPrerequisites,
+      component: Prerequisites,
     },
     {
       id: 2,
@@ -71,13 +71,13 @@
       id: 7,
       name: "Flash",
       description: "Begin the flashing process to root your phone.",
-      component: RootFlash,
+      component: Flash,
     },
     {
       id: 8,
       name: "Finish",
       description: "",
-      component: RootFinish,
+      component: Finish,
     },
   ];
 
