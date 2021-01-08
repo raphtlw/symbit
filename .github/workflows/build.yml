@@ -70,7 +70,7 @@ jobs:
           tag_name: ${{ steps.create_tag.outputs.tagname }}
           release_name: Symbit Alpha Release
           draft: false
-          prerelease: false
+          prerelease: true
       - name: Upload linux package
         uses: actions/upload-release-asset@v1
         env:
