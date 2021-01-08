@@ -4,7 +4,7 @@ on:
       - main
 
 env:
-  APP_NAME: ${APP_NAME}
+  APP_NAME: Symbit
 
 jobs:
   build:
