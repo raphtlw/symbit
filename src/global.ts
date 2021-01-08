@@ -1,31 +1,26 @@
 /* eslint-disable @typescript-eslint/camelcase */
 /* eslint-disable @typescript-eslint/interface-name-prefix */
 
-import type { Remote } from "electron"
-import type * as Path from "path"
-import type * as Fs from "fs"
-import type * as Child_process from "child_process"
-import type * as Util from "util"
-import type * as Stream from "stream"
-import type * as Glob from "glob"
 import { writable } from "svelte/store"
-const remote: Remote = window.require("electron").remote
-const path: typeof Path = window.require("path")
-const fs: typeof Fs = window.require("fs")
-import type Got from "got"
-const got: typeof Got = window.require("got")
-import type Extract from "extract-zip"
-const extract: typeof Extract = window.require("extract-zip")
-const child_process: typeof Child_process = window.require("child_process")
+const remote: typeof import("electron").remote = window.require("electron")
+  .remote
+const path: typeof import("path") = remote.require("path")
+const fs: typeof import("fs") = remote.require("fs")
+const got: typeof import("got").default = remote.require("got")
+const extract: typeof import("extract-zip") = remote.require("extract-zip")
+const child_process: typeof import("child_process") = remote.require(
+  "child_process"
+)
 const exec = child_process.execSync
 const spawn = child_process.spawn
-const util: typeof Util = window.require("util")
-const stream: typeof Stream = window.require("stream")
-const glob: typeof Glob = window.require("glob")
+const util: typeof import("util") = remote.require("util")
+const stream: typeof import("stream") = remote.require("stream")
+const glob: typeof import("glob") = remote.require("glob")
+const microjob: typeof import("microjob") = remote.require("microjob")
 
 // RE-EXPORTS
 // -----------------------------------------------
-export { remote, path, fs, got, extract, spawn, glob, util, exec }
+export { remote, path, fs, got, extract, spawn, glob, util, exec, microjob }
 
 // GLOBAL VALUES
 // -----------------------------------------------
@@ -253,11 +248,14 @@ export const pipeline = util.promisify(stream.pipeline)
 
 /**
  * Run command on the shell
+ *
+ * @returns {string} The command output
  */
-export function shellExec(...command: string[]) {
+export function shellExec(...command: string[]): string {
   try {
     const output = exec(command.join(" ")).toString()
     Log.i(output)
+    return output
   } catch (e) {
     Log.e(e.message)
   }
@@ -266,21 +264,21 @@ export function shellExec(...command: string[]) {
 /**
  * Run ADB on the shell
  */
-export function adb(...command: string[]) {
+export function adb(...command: string[]): string {
   if (process.platform === "win32")
-    shellExec(`${PLATFORM_TOOLS_DIR}\\adb.exe ${command.join(" ")}`)
+    return shellExec(`${PLATFORM_TOOLS_DIR}\\adb.exe ${command.join(" ")}`)
   else if (process.platform === "linux" || process.platform === "darwin")
-    shellExec(`${PLATFORM_TOOLS_DIR}/adb ${command.join(" ")}`)
+    return shellExec(`${PLATFORM_TOOLS_DIR}/adb ${command.join(" ")}`)
 }
 
 /**
  * Run Fastboot on the shell
  */
-export function fastboot(...command: string[]) {
+export function fastboot(...command: string[]): string {
   if (process.platform === "win32")
-    shellExec(`${PLATFORM_TOOLS_DIR}\\fastboot.exe ${command.join(" ")}`)
+    return shellExec(`${PLATFORM_TOOLS_DIR}\\fastboot.exe ${command.join(" ")}`)
   else if (process.platform === "linux" || process.platform === "darwin")
-    shellExec(`${PLATFORM_TOOLS_DIR}/fastboot ${command.join(" ")}`)
+    return shellExec(`${PLATFORM_TOOLS_DIR}/fastboot ${command.join(" ")}`)
 }
 
 /**

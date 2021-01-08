@@ -49,6 +49,7 @@
     "electron-squirrel-startup": "^1.0.0",
     "extract-zip": "^2.0.1",
     "glob": "^7.1.6",
-    "got": "^11.7.0"
+    "got": "^11.7.0",
+    "microjob": "^0.7.0"
   }
 }
