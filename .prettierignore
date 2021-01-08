@@ -1,4 +1,4 @@
-**/*.js
 **/*.md
-public/build/**
+node_modules/
+public/build/
 out/
