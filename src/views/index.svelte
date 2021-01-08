@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { Button, Dropdown, Link } from "../components";
-  import { SUPPORTED_DEVICE_TYPES, navigate, remote } from "../global";
+  import { Button, Dropdown, Link } from "../components"
+  import { SUPPORTED_DEVICE_TYPES, navigate, remote } from "../global"
 </script>
 
 <style>

@@ -1,19 +1,19 @@
 <script lang="ts">
-  import { fly } from "svelte/transition";
-  import { cubicOut } from "svelte/easing";
+  import { fly } from "svelte/transition"
+  import { cubicOut } from "svelte/easing"
 
-  export let value: string;
-  export let items: string[];
-  let shown = false;
+  export let value: string
+  export let items: string[]
+  let shown = false
 
   function toggleDropdown(e: Event) {
-    e.stopPropagation();
-    shown = !shown;
+    e.stopPropagation()
+    shown = !shown
   }
 
   function handleItemSelect(item: string) {
-    shown = !shown;
-    value = item;
+    shown = !shown
+    value = item
   }
 </script>
 

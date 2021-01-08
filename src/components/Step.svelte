@@ -1,6 +1,6 @@
 <script lang="ts">
-  import type { IStep } from "../global";
-  export let step: IStep;
+  import type { IStep } from "../global"
+  export let step: IStep
 </script>
 
 <style>

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { StepBar, Step } from "../components";
+  import { StepBar, Step } from "../components"
   import {
     ConnectPhone,
     GetLatestFactoryImage,
@@ -7,15 +7,15 @@
     Finish,
     Flash,
     Prerequisites,
-  } from "./steps";
-  import type { IStep } from "../global";
-  import { currentStep, currentSteps } from "../global";
-  import { onMount } from "svelte";
+  } from "./steps"
+  import type { IStep } from "../global"
+  import { currentStep, currentSteps } from "../global"
+  import { onMount } from "svelte"
 
   onMount(async () => {
-    currentStep.set(steps[0]);
-    currentSteps.set(steps);
-  });
+    currentStep.set(steps[0])
+    currentSteps.set(steps)
+  })
 
   const steps: IStep[] = [
     {
@@ -54,10 +54,10 @@
       description: "",
       component: Finish,
     },
-  ];
+  ]
 
-  let currentStepValue: IStep;
-  currentStep.subscribe((value) => (currentStepValue = value));
+  let currentStepValue: IStep
+  currentStep.subscribe((value) => (currentStepValue = value))
 </script>
 
 <style>

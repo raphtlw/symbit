@@ -1,6 +1,6 @@
 <script lang="ts">
-  import Button from "./Button.svelte";
-  import { nextStep } from "../global";
+  import Button from "./Button.svelte"
+  import { nextStep } from "../global"
 </script>
 
 <style>

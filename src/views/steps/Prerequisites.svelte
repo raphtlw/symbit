@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { StepDoneButton } from "../../components";
+  import { StepDoneButton } from "../../components"
 </script>
 
 <h2>Enable developer options</h2>

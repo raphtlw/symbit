@@ -1,82 +1,82 @@
 /* eslint-disable @typescript-eslint/camelcase */
 /* eslint-disable @typescript-eslint/interface-name-prefix */
 
-import type { Remote } from "electron";
-import type * as Path from "path";
-import type * as Fs from "fs";
-import type * as Child_process from "child_process";
-import type * as Util from "util";
-import type * as Stream from "stream";
-import type * as Glob from "glob";
-import { writable } from "svelte/store";
-const remote: Remote = window.require("electron").remote;
-const path: typeof Path = window.require("path");
-const fs: typeof Fs = window.require("fs");
-import type Got from "got";
-const got: typeof Got = window.require("got");
-import type Extract from "extract-zip";
-const extract: typeof Extract = window.require("extract-zip");
-const child_process: typeof Child_process = window.require("child_process");
-const exec = child_process.execSync;
-const spawn = child_process.spawn;
-const util: typeof Util = window.require("util");
-const stream: typeof Stream = window.require("stream");
-const glob: typeof Glob = window.require("glob");
+import type { Remote } from "electron"
+import type * as Path from "path"
+import type * as Fs from "fs"
+import type * as Child_process from "child_process"
+import type * as Util from "util"
+import type * as Stream from "stream"
+import type * as Glob from "glob"
+import { writable } from "svelte/store"
+const remote: Remote = window.require("electron").remote
+const path: typeof Path = window.require("path")
+const fs: typeof Fs = window.require("fs")
+import type Got from "got"
+const got: typeof Got = window.require("got")
+import type Extract from "extract-zip"
+const extract: typeof Extract = window.require("extract-zip")
+const child_process: typeof Child_process = window.require("child_process")
+const exec = child_process.execSync
+const spawn = child_process.spawn
+const util: typeof Util = window.require("util")
+const stream: typeof Stream = window.require("stream")
+const glob: typeof Glob = window.require("glob")
 
 // RE-EXPORTS
 // -----------------------------------------------
-export { remote, path, fs, got, extract, spawn, glob, util, exec };
+export { remote, path, fs, got, extract, spawn, glob, util, exec }
 
 // GLOBAL VALUES
 // -----------------------------------------------
 //
 
-export type page = "index" | "root" | "update";
-export const currentPage = writable<page>("index");
-export const pageHistory = writable<page[]>(["index"]);
-export const currentStep = writable<IStep>(undefined);
-export const currentSteps = writable<IStep[]>(undefined);
-export const imageDirStore = writable<string>(undefined);
+export type page = "index" | "root" | "update"
+export const currentPage = writable<page>("index")
+export const pageHistory = writable<page[]>(["index"])
+export const currentStep = writable<IStep>(undefined)
+export const currentSteps = writable<IStep[]>(undefined)
+export const imageDirStore = writable<string>(undefined)
 
 export interface IStep {
-  id: number;
-  name: string;
-  description: string;
-  component: unknown;
+  id: number
+  name: string
+  description: string
+  component: unknown
 }
 
 export function navigate(page: page): void {
-  currentPage.set(page);
+  currentPage.set(page)
   pageHistory.update((value) => {
     if (page !== value[value.length - 1]) {
-      value.push(page);
+      value.push(page)
     }
-    return value;
-  });
+    return value
+  })
 }
 
 export function nextStep() {
-  let stepsValue: IStep[];
+  let stepsValue: IStep[]
   currentStep.update((value) => {
     currentSteps.subscribe((value) => {
-      stepsValue = value;
-    })();
-    return stepsValue[stepsValue.findIndex((item) => item === value) + 1];
-  });
+      stepsValue = value
+    })()
+    return stepsValue[stepsValue.findIndex((item) => item === value) + 1]
+  })
 }
 
-export const DIR = path.join(remote.app.getPath("cache"), "symbit");
-export const LOG_DIR = path.join(DIR, ".logs");
-export const LOG_PATH = path.join(LOG_DIR, `symbit.log`);
-export const PLATFORM_TOOLS_DIR = path.join(DIR, "platform-tools");
-export const MAGISK_MANAGER_APK_PATH = path.join(DIR, "magisk-manager.apk");
+export const DIR = path.join(remote.app.getPath("cache"), "symbit")
+export const LOG_DIR = path.join(DIR, ".logs")
+export const LOG_PATH = path.join(LOG_DIR, `symbit.log`)
+export const PLATFORM_TOOLS_DIR = path.join(DIR, "platform-tools")
+export const MAGISK_MANAGER_APK_PATH = path.join(DIR, "magisk-manager.apk")
 
 export enum SUPPORTED_DEVICE_TYPES {
   GOOGLE_PIXEL = "Google Pixel",
   ONEPLUS = "OnePlus",
 }
 
-export type platformToolsVariants = "windows" | "linux" | "darwin";
+export type platformToolsVariants = "windows" | "linux" | "darwin"
 
 export enum ACTIONS {
   UPDATE = "update",
@@ -100,7 +100,7 @@ export function indoc(document: TemplateStringsArray): string {
     .split("\n")
     .map((item) => item.trim())
     .filter((item) => item.length > 0)
-    .join("\n");
+    .join("\n")
 }
 
 export const STRINGS = {
@@ -162,7 +162,7 @@ export const STRINGS = {
     You can install the canary version of Magisk here:
     https://raw.githubusercontent.com/topjohnwu/magisk_files/canary/app-debug.apk
   `,
-};
+}
 
 // HELPER FUNCTIONS
 // ------------------------------------------
@@ -170,38 +170,38 @@ export const STRINGS = {
 
 export class Log {
   private static getTime() {
-    const date = new Date();
-    return `[${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}]`;
+    const date = new Date()
+    return `[${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}]`
   }
   private static async logFile(_: unknown) {
     fs.appendFile(LOG_PATH, `${String(_)}\n`, (err) => {
-      if (err) throw err;
-    });
+      if (err) throw err
+    })
   }
   static d(_: unknown) {
-    const message = `${this.getTime()} [debug] ${_}`;
-    this.logFile(message);
-    console.log(message);
+    const message = `${this.getTime()} [debug] ${_}`
+    this.logFile(message)
+    console.log(message)
   }
   static i(_: unknown) {
-    const message = `${this.getTime()} [info] ${_}`;
-    this.logFile(message);
-    console.log(message);
+    const message = `${this.getTime()} [info] ${_}`
+    this.logFile(message)
+    console.log(message)
   }
   static w(_: unknown) {
-    const message = `${this.getTime()} [warning] ${_}`;
-    this.logFile(message);
-    console.log(message);
+    const message = `${this.getTime()} [warning] ${_}`
+    this.logFile(message)
+    console.log(message)
   }
   static e(_: unknown) {
-    const message = `${this.getTime()} [ERROR] ${_}`;
-    this.logFile(message);
-    console.log(message);
+    const message = `${this.getTime()} [ERROR] ${_}`
+    this.logFile(message)
+    console.log(message)
   }
   static f(_: unknown) {
-    const message = `${this.getTime()} [FATAL] ${_}`;
-    this.logFile(message);
-    console.log(message);
+    const message = `${this.getTime()} [FATAL] ${_}`
+    this.logFile(message)
+    console.log(message)
   }
 }
 
@@ -209,8 +209,8 @@ export class Log {
  * Throws an error to the user
  */
 export function printError(message: string) {
-  console.log(message);
-  process.exit(1);
+  console.log(message)
+  process.exit(1)
 }
 
 /**
@@ -249,17 +249,17 @@ export function printError(message: string) {
 //   return choice;
 // }
 
-export const pipeline = util.promisify(stream.pipeline);
+export const pipeline = util.promisify(stream.pipeline)
 
 /**
  * Run command on the shell
  */
 export function shellExec(...command: string[]) {
   try {
-    const output = exec(command.join(" ")).toString();
-    Log.i(output);
+    const output = exec(command.join(" ")).toString()
+    Log.i(output)
   } catch (e) {
-    Log.e(e.message);
+    Log.e(e.message)
   }
 }
 
@@ -268,9 +268,9 @@ export function shellExec(...command: string[]) {
  */
 export function adb(...command: string[]) {
   if (process.platform === "win32")
-    shellExec(`${PLATFORM_TOOLS_DIR}\\adb.exe ${command.join(" ")}`);
+    shellExec(`${PLATFORM_TOOLS_DIR}\\adb.exe ${command.join(" ")}`)
   else if (process.platform === "linux" || process.platform === "darwin")
-    shellExec(`${PLATFORM_TOOLS_DIR}/adb ${command.join(" ")}`);
+    shellExec(`${PLATFORM_TOOLS_DIR}/adb ${command.join(" ")}`)
 }
 
 /**
@@ -278,9 +278,9 @@ export function adb(...command: string[]) {
  */
 export function fastboot(...command: string[]) {
   if (process.platform === "win32")
-    shellExec(`${PLATFORM_TOOLS_DIR}\\fastboot.exe ${command.join(" ")}`);
+    shellExec(`${PLATFORM_TOOLS_DIR}\\fastboot.exe ${command.join(" ")}`)
   else if (process.platform === "linux" || process.platform === "darwin")
-    shellExec(`${PLATFORM_TOOLS_DIR}/fastboot ${command.join(" ")}`);
+    shellExec(`${PLATFORM_TOOLS_DIR}/fastboot ${command.join(" ")}`)
 }
 
 /**
@@ -288,5 +288,5 @@ export function fastboot(...command: string[]) {
  */
 export function chmod(mode: string, ...files: string[]) {
   if (process.platform === "linux" || process.platform === "darwin")
-    shellExec(`chmod ${mode} ${files.join(" ")}`);
+    shellExec(`chmod ${mode} ${files.join(" ")}`)
 }

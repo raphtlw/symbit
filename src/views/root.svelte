@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { StepBar, Step } from "../components";
+  import { StepBar, Step } from "../components"
   import {
     ConnectPhone,
     DownloadMagisk,
@@ -9,26 +9,26 @@
     Flash,
     Prerequisites,
     UnlockBootloader,
-  } from "./steps";
-  import type { IStep } from "../global";
+  } from "./steps"
+  import type { IStep } from "../global"
   import {
     got,
     fs,
     MAGISK_MANAGER_APK_PATH,
     currentStep,
     currentSteps,
-  } from "../global";
-  import { onMount } from "svelte";
+  } from "../global"
+  import { onMount } from "svelte"
 
   onMount(async () => {
-    currentStep.set(steps[0]);
-    currentSteps.set(steps);
+    currentStep.set(steps[0])
+    currentSteps.set(steps)
     got
       .stream(
         "https://github.com/topjohnwu/Magisk/releases/download/manager-v7.5.1/MagiskManager-v7.5.1.apk"
       )
-      .pipe(fs.createWriteStream(MAGISK_MANAGER_APK_PATH));
-  });
+      .pipe(fs.createWriteStream(MAGISK_MANAGER_APK_PATH))
+  })
 
   const steps: IStep[] = [
     {
@@ -79,10 +79,10 @@
       description: "",
       component: Finish,
     },
-  ];
+  ]
 
-  let currentStepValue: IStep;
-  currentStep.subscribe((value) => (currentStepValue = value));
+  let currentStepValue: IStep
+  currentStep.subscribe((value) => (currentStepValue = value))
 </script>
 
 <style>

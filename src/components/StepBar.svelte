@@ -1,8 +1,8 @@
 <script lang="ts">
-  import type { IStep } from "../global";
+  import type { IStep } from "../global"
 
-  export let steps: IStep[];
-  export let current: IStep;
+  export let steps: IStep[]
+  export let current: IStep
 </script>
 
 <style>

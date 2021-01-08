@@ -1,14 +1,14 @@
 <script lang="ts">
-  import { Button, Loader, StepDoneButton } from "../../components";
-  import { nextStep, adb, fastboot } from "../../global";
+  import { Button, Loader, StepDoneButton } from "../../components"
+  import { nextStep, adb, fastboot } from "../../global"
 
   async function unlockBootloader() {
-    adb("reboot", "bootloader");
-    fastboot("flashing", "unlock");
-    fastboot("reboot");
+    adb("reboot", "bootloader")
+    fastboot("flashing", "unlock")
+    fastboot("reboot")
   }
 
-  let unlockBootloaderShown = false;
+  let unlockBootloaderShown = false
 </script>
 
 <span>You first need to enable OEM unlocking.</span>
@@ -24,7 +24,7 @@
     <Button
       label="Yes"
       onClick={() => {
-        unlockBootloaderShown = true;
+        unlockBootloaderShown = true
       }} />
   </div>
   <div>
