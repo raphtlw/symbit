@@ -4,94 +4,48 @@
   "name": "symbit",
   "productName": "Symbit",
   "description": "A simple root manager for Android devices without TWRP",
-  "productDescription": "A simple root manager for Android devices without TWRP",
   "license": "MIT",
-  "author": {
-    "name": "Raphael T.",
-    "email": "raphpb1912@gmail.com"
-  },
+  "author": "raphtlw",
   "scripts": {
-    "start": "run-p start:*",
-    "build": "run-s build:*",
-    "start:svelte": "rollup -c rollup.config.ts -w",
-    "start:electron": "tsc -p tsconfig.electron.json && electron-forge start",
-    "build:svelte": "rollup -c rollup.config.ts",
-    "build:electron-typescript": "tsc -p tsconfig.electron.json",
-    "build:electron": "electron-forge make",
-    "lint": "run-p lint:*",
-    "lint:eslint": "eslint --ext .ts .",
-    "lint:svelte": "svelte-check",
-    "lint:madge": "madge --circular src/main.ts",
+    "start": "ts-node scripts/start.ts",
+    "build": "ts-node scripts/build.ts",
+    "lint": "ts-node scripts/lint.ts",
     "format": "prettier --write ."
   },
-  "main": "public/index.js",
-  "config": {
-    "forge": {
-      "packagerConfig": {
-        "executableName": "symbit",
-        "icon": "icon.png"
-      },
-      "makers": [
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin",
-            "linux"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-dmg",
-          "config": {
-            "format": "ULFO"
-          }
-        }
-      ]
-    }
-  },
+  "main": "public/build/main.js",
   "devDependencies": {
-    "@electron-forge/cli": "^6.0.0-beta.53",
-    "@electron-forge/maker-deb": "^6.0.0-beta.53",
-    "@electron-forge/maker-dmg": "^6.0.0-beta.53",
-    "@electron-forge/maker-rpm": "^6.0.0-beta.53",
-    "@electron-forge/maker-squirrel": "^6.0.0-beta.53",
-    "@electron-forge/maker-zip": "^6.0.0-beta.53",
-    "@rollup/plugin-commonjs": "^14.0.0",
-    "@rollup/plugin-node-resolve": "^8.4.0",
+    "@electron-forge/cli": "^6.0.0-beta.54",
+    "@electron-forge/maker-deb": "^6.0.0-beta.54",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.54",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.54",
+    "@electron-forge/maker-zip": "^6.0.0-beta.54",
+    "@electron-forge/shared-types": "^6.0.0-beta.54",
+    "@rollup/plugin-commonjs": "^16.0.0",
+    "@rollup/plugin-node-resolve": "^10.0.0",
     "@rollup/plugin-typescript": "^6.0.0",
     "@tsconfig/svelte": "^1.0.0",
+    "@types/shelljs": "^0.8.8",
     "@typescript-eslint/eslint-plugin": "^2.34.0",
     "@typescript-eslint/parser": "^2.34.0",
-    "electron": "^10.1.2",
-    "eslint": "^7.9.0",
-    "eslint-plugin-import": "^2.22.0",
-    "madge": "^3.10.0",
-    "npm-run-all": "^4.1.5",
-    "prettier": "^2.1.2",
+    "electron": "11.0.3",
+    "electron-reloader": "^1.1.0",
+    "eslint": "^7.15.0",
+    "eslint-plugin-import": "^2.22.1",
+    "prettier": "^2.2.1",
     "rollup": "^2.3.4",
+    "rollup-plugin-css-only": "^3.0.0",
     "rollup-plugin-livereload": "^2.0.0",
-    "rollup-plugin-svelte": "^6.0.0",
+    "rollup-plugin-svelte": "^7.0.0",
     "rollup-plugin-terser": "^7.0.0",
+    "shelljs": "^0.8.4",
     "svelte": "^3.0.0",
-    "svelte-check": "^1.0.46",
+    "svelte-check": "^1.0.0",
     "svelte-preprocess": "^4.0.0",
+    "ts-node": "^9.1.0",
     "tslib": "^2.0.0",
-    "typescript": "^3.9.3"
+    "typescript": "^4.1.2"
   },
   "dependencies": {
-    "electron-is-dev": "^1.2.0",
-    "electron-reload": "^1.5.0",
     "electron-squirrel-startup": "^1.0.0",
     "extract-zip": "^2.0.1",
     "glob": "^7.1.6",

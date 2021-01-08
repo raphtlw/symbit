@@ -11,12 +11,5 @@
     "plugin:import/errors",
     "plugin:import/warnings"
   ],
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaVersion": 6,
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "modules": true
-    }
-  }
+  "parser": "@typescript-eslint/parser"
 }
