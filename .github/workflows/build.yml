@@ -94,8 +94,8 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: releases/${{ env.APP_NAME }}_debian.zip
-          asset_name: ${{ env.APP_NAME }}_debian.zip
+          asset_path: releases/${{ env.APP_NAME }}_debian.deb
+          asset_name: ${{ env.APP_NAME }}_debian.deb
           asset_content_type: application/zip
       - name: Upload rpm package
         uses: actions/upload-release-asset@v1
