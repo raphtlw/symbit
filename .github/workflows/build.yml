@@ -59,6 +59,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: build
+      - run: ls -lah
       - name: Move build assets
         run: |
           mkdir releases
