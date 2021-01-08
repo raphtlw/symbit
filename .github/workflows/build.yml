@@ -56,7 +56,6 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: build
-      - run: ls -lah
       - name: Create release
         uses: actions/create-release@v1
         id: create_release
@@ -67,57 +66,9 @@ jobs:
           release_name: Symbit Alpha Release
           draft: false
           prerelease: false
-      - name: Upload linux package
-        uses: actions/upload-release-asset@v1
+      - name: Upload releases
+        uses: alexellis/upload-assets@0.2.3
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./zip/linux/x64/*.zip
-          asset_name: linux.zip
-          asset_content_type: application/zip
-      - name: Upload debian package
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./deb/x64/*.deb
-          asset_name: debian.zip
-          asset_content_type: application/zip
-      - name: Upload rpm package
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./rpm/x64/*.rpm
-          asset_name: debian.zip
-          asset_content_type: application/zip
-      - name: Upload macOS zip package
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./zip/darwin/x64/*.zip
-          asset_name: macos.zip
-          asset_content_type: application/zip
-      - name: Upload macOS dmg package
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./*.dmg
-          asset_name: macos.dmg
-          asset_content_type: application/zip
-      - name: Upload windows package
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./squirrel.windows/x64/*
-          asset_name: windows.zip
-          asset_content_type: application/zip
+          asset_paths: '["./zip/linux/x64/*.zip", "./deb/x64/*.deb", "./rpm/x64/*.rpm", "./zip/darwin/x64/*.zip", "./*.dmg", "./squirrel.windows/x64/*"]'
