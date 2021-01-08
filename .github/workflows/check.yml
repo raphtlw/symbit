@@ -1,8 +1,8 @@
 on:
   push:
     branches:
-      - master
-      - prod
+      - main
+      - develop
 
 jobs:
   test:

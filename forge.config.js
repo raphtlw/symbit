@@ -6,16 +6,16 @@ const linuxIcon = path.join(__dirname, 'public', 'icons', 'png', '512x512.png');
 /** @type {import('@electron-forge/shared-types').ForgeConfig} */
 module.exports = {
   packagerConfig: {
-    executableName: 'app',
+    executableName: 'symbit',
   },
   makers: [
     {
       name: '@electron-forge/maker-squirrel',
-      config: { name: 'app', iconUrl: windowsIcon, setupIcon: windowsIcon },
+      config: { name: 'symbit', iconUrl: windowsIcon, setupIcon: windowsIcon },
     },
     {
       name: '@electron-forge/maker-zip',
-      platforms: ['darwin'],
+      platforms: ['darwin', 'linux'],
     },
     {
       name: '@electron-forge/maker-deb',
