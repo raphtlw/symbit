@@ -3,6 +3,9 @@ on:
     branches:
       - main
 
+env:
+  APP_NAME: ${APP_NAME}
+
 jobs:
   build:
     name: Build for all platforms
@@ -56,6 +59,15 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: build
+      - name: Move build assets
+        run: |
+          mkdir releases
+          mv ./zip/linux/x64/*.zip releases/${APP_NAME}_linux.zip
+          mv ./deb/x64/*.deb releases/${APP_NAME}_debian.deb
+          mv ./rpm/x64/*.rpm releases/${APP_NAME}_rpm.rpm
+          mv ./zip/darwin/x64/*.zip releases/${APP_NAME}_macOS.zip
+          mv ./*.dmg releases/${APP_NAME}_macOS.dmg
+          mv ./squirrel.windows/x64/*.exe releases/${APP_NAME}_windows.exe
       - name: Create release
         uses: actions/create-release@v1
         id: create_release
@@ -63,12 +75,60 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           tag_name: ${{ steps.create_tag.outputs.tagname }}
-          release_name: Symbit Alpha Release
+          release_name: ${{ env.APP_NAME }} ${{ steps.create_tag.outputs.tagname }}
           draft: false
-          prerelease: true
-      - name: Upload releases
-        uses: alexellis/upload-assets@0.2.3
+          prerelease: false
+      - name: Upload linux package
+        uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          asset_paths: '["./zip/linux/x64/*.zip", "./deb/x64/*.deb", "./rpm/x64/*.rpm", "./zip/darwin/x64/*.zip", "./*.dmg", "./squirrel.windows/x64/*"]'
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: releases/${{ env.APP_NAME }}_linux.zip
+          asset_name: ${{ env.APP_NAME }}_linux.zip
+          asset_content_type: application/zip
+      - name: Upload debian package
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: releases/${{ env.APP_NAME }}_debian.zip
+          asset_name: ${{ env.APP_NAME }}_debian.zip
+          asset_content_type: application/zip
+      - name: Upload rpm package
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: releases/${{ env.APP_NAME }}_rpm.rpm
+          asset_name: ${{ env.APP_NAME }}_rpm.rpm
+          asset_content_type: application/zip
+      - name: Upload macOS package
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: releases/${{ env.APP_NAME }}_macOS.zip
+          asset_name: ${{ env.APP_NAME }}_macOS.zip
+          asset_content_type: application/zip
+      - name: Upload macOS DMG package
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: releases/${{ env.APP_NAME }}_macOS.dmg
+          asset_name: ${{ env.APP_NAME }}_macOS.dmg
+          asset_content_type: application/zip
+      - name: Upload windows package
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: releases/${{ env.APP_NAME }}_windows.exe
+          asset_name: ${{ env.APP_NAME }}_windows.exe
+          asset_content_type: application/zip

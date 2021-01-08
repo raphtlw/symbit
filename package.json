@@ -1,6 +1,6 @@
 {
   "private": true,
-  "version": "0.1.8",
+  "version": "0.1.9",
   "name": "symbit",
   "productName": "Symbit",
   "description": "A simple root manager for Android devices without TWRP",
