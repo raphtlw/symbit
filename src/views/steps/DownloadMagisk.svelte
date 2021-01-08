@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { Loader } from "../../components";
-  import { nextStep, adb, MAGISK_MANAGER_APK_PATH } from "../../global";
+  import { Loader } from "../../components"
+  import { nextStep, adb, MAGISK_MANAGER_APK_PATH } from "../../global"
 
   async function installMagiskManager() {
-    adb("install", MAGISK_MANAGER_APK_PATH);
+    adb("install", MAGISK_MANAGER_APK_PATH)
   }
 </script>
 

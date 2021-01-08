@@ -1,6 +1,6 @@
 <script lang="ts">
-  export let label: string;
-  export let onClick: svelte.JSX.EventHandler;
+  export let label: string
+  export let onClick: svelte.JSX.EventHandler
 </script>
 
 <style>

@@ -1,17 +1,17 @@
 <script lang="ts">
-  import { pageHistory, currentPage } from "../global";
-  import type { page } from "../global";
+  import { pageHistory, currentPage } from "../global"
+  import type { page } from "../global"
 
-  let currentPageValue: page;
-  let pageHistoryValue: page[];
+  let currentPageValue: page
+  let pageHistoryValue: page[]
 
   currentPage.subscribe((value) => {
-    currentPageValue = value;
-  });
+    currentPageValue = value
+  })
 
   pageHistory.subscribe((value) => {
-    pageHistoryValue = value;
-  });
+    pageHistoryValue = value
+  })
 
   function navigateBack() {
     pageHistoryValue.length > 1 &&
@@ -20,7 +20,7 @@
           pageHistoryValue.findIndex((element) => element == currentPageValue) -
             1
         ]
-      );
+      )
   }
 
   function navigateForward() {
@@ -30,7 +30,7 @@
           pageHistoryValue.findIndex((element) => element == currentPageValue) +
             1
         ]
-      );
+      )
   }
 </script>
 

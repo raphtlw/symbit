@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Link, Button, StepDoneButton, Loader } from "../../components";
+  import { Link, Button, StepDoneButton, Loader } from "../../components"
   import {
     remote,
     extract,
@@ -9,30 +9,30 @@
     fs,
     Log,
     imageDirStore,
-  } from "../../global";
+  } from "../../global"
 
-  let pathToImageZipFile: string;
-  let imageDir: string;
+  let pathToImageZipFile: string
+  let imageDir: string
 
-  imageDirStore.subscribe((value) => (imageDir = value));
+  imageDirStore.subscribe((value) => (imageDir = value))
 
   async function processImageZipFile() {
     try {
-      await extract(pathToImageZipFile, { dir: DIR });
+      await extract(pathToImageZipFile, { dir: DIR })
       imageDir = glob.sync(
         `${DIR}/${path.basename(pathToImageZipFile, ".zip").split("-")[0]}*`
-      )[0];
-      imageDirStore.set(imageDir);
-      Log.i(`Image directory saved in global state as: ${imageDir}`);
+      )[0]
+      imageDirStore.set(imageDir)
+      Log.i(`Image directory saved in global state as: ${imageDir}`)
       await extract(glob.sync(`${imageDir}/image-*.zip`)[0], {
         dir: imageDir,
-      });
+      })
       fs.unlink(`${imageDir}.zip`, () => {
-        Log.i("Deleted image directory zip");
-      });
-      Log.i("Extracted inner image folder");
+        Log.i("Deleted image directory zip")
+      })
+      Log.i("Extracted inner image folder")
     } catch (e) {
-      remote.dialog.showErrorBox("Error", e.message);
+      remote.dialog.showErrorBox("Error", e.message)
     }
   }
 </script>
@@ -50,9 +50,9 @@
       const result = await remote.dialog.showOpenDialog({
         properties: ['openFile'],
         filters: [{ name: 'Zip files', extensions: ['zip'] }],
-      });
+      })
       if (!result.canceled) {
-        pathToImageZipFile = result.filePaths[0];
+        pathToImageZipFile = result.filePaths[0]
       }
     }} />
   <span

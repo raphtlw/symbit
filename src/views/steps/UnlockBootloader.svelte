@@ -1,14 +1,27 @@
 <script lang="ts">
-  import { Button, Loader, StepDoneButton } from "../../components";
-  import { nextStep, adb, fastboot } from "../../global";
+  import { Button, Loader, StepDoneButton } from "../../components"
+  import { nextStep, adb, fastboot, remote } from "../../global"
 
   async function unlockBootloader() {
-    adb("reboot", "bootloader");
-    fastboot("flashing", "unlock");
-    fastboot("reboot");
+    adb("reboot", "bootloader")
+    fastboot("flashing", "unlock")
+    fastboot("reboot", "bootloader")
+
+    // Verify unlock
+    if (
+      fastboot("oem", "device-info")
+        .toLowerCase()
+        .includes("device unlocked: false")
+    ) {
+      remote.dialog.showMessageBoxSync({
+        title: "ERROR",
+        message: "Bootloader not unlocked, unable to proceed.",
+      })
+      remote.app.quit()
+    }
   }
 
-  let unlockBootloaderShown = false;
+  let unlockBootloaderShown = false
 </script>
 
 <span>You first need to enable OEM unlocking.</span>
@@ -21,11 +34,7 @@
   your data will be erased forever!</span>
 <div class="horizontal-layout">
   <div class="spacing-right">
-    <Button
-      label="Yes"
-      onClick={() => {
-        unlockBootloaderShown = true;
-      }} />
+    <Button label="Yes" onClick={() => (unlockBootloaderShown = true)} />
   </div>
   <div>
     <Button label="No" onClick={nextStep} />

@@ -1,5 +1,5 @@
 <script lang="ts">
-  export let primary: boolean = false;
+  export let primary: boolean = false
 </script>
 
 <style>

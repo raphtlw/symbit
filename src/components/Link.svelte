@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { remote } from "../global";
+  import { remote } from "../global"
 
-  export let href: string;
+  export let href: string
 </script>
 
 <style>

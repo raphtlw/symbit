@@ -1,19 +1,19 @@
 <script lang="ts">
-  import { Loader, Button, StepDoneButton } from "../../components";
-  import { imageDirStore, path, adb } from "../../global";
+  import { Loader, Button, StepDoneButton } from "../../components"
+  import { imageDirStore, path, adb } from "../../global"
 
-  let imageDir: string;
-  imageDirStore.subscribe((value) => (imageDir = value));
+  let imageDir: string
+  imageDirStore.subscribe((value) => (imageDir = value))
 
   async function pushBootImageFile() {
-    adb("push", path.join(imageDir, "boot.img"), "/sdcard/");
+    adb("push", path.join(imageDir, "boot.img"), "/sdcard/")
   }
 
   async function pullBootImageFile() {
-    adb("pull", "/sdcard/Download/magisk_patched.img", imageDir);
+    adb("pull", "/sdcard/Download/magisk_patched.img", imageDir)
   }
 
-  let patchBootImageFinished = false;
+  let patchBootImageFinished = false
 </script>
 
 {#await pushBootImageFile()}
