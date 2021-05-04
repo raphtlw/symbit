@@ -85,6 +85,10 @@ TWRP has not been updated to support the new /system partition format and rootin
 - OnePlus 8
 - OnePlus 8 Pro
 - OnePlus Nord
+- OnePlus 9
+- OnePlus 9 Pro
+- OnePlus Nord N10
+- OnePlus Nord N100
 
 ## Roadmap
 
