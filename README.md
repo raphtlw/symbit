@@ -64,9 +64,8 @@ TWRP has not been updated to support the new /system partition format and rootin
 - Google Pixel 4
 - Google Pixel 4 XL
 - Google Pixel 4a
-- Google Pixel 4a XL
+- Google Pixel 4a 5G
 - Google Pixel 5
-- Google Pixel 5 XL
 
 ### OnePlus
 
@@ -86,6 +85,10 @@ TWRP has not been updated to support the new /system partition format and rootin
 - OnePlus 8
 - OnePlus 8 Pro
 - OnePlus Nord
+- OnePlus 9
+- OnePlus 9 Pro
+- OnePlus Nord N10
+- OnePlus Nord N100
 
 ## Roadmap
 
